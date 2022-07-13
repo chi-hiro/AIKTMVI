@@ -1,0 +1,218 @@
+@use 'sass:math';
+@use '../setting' as *;
+
+//***********************************************************************
+//  Common
+//***********************************************************************
+@mixin hover-mouse {
+    &:hover {
+        text-decoration: none;
+
+        @media (hover: hover) and (pointer: fine) {
+            @content;
+        }
+    }
+}
+
+@mixin focus-mouse {
+    &:hover, &:focus {
+        text-decoration: none;
+
+        @media (hover: hover) and (pointer: fine) {
+            @content;
+        }
+    }
+}
+
+@mixin isMouse {
+    @media (pointer: fine) {
+        @content;
+    }
+}
+
+@mixin isTouch {
+    @media (pointer: coarse) {
+        @content;
+    }
+}
+
+@mixin darkmode {
+    @if $enable-darkmode {
+        @media (prefers-color-scheme: dark) {
+            @content;
+        }
+    }
+}
+
+@mixin clearfix {
+    &::after {
+        display: block;
+        content: "";
+        clear: both;
+    }
+}
+
+@mixin img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+@mixin nowrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin text-kerning {
+    font-feature-settings: "pkna";
+}
+
+@mixin text-clamp($line: 1) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $line;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+}
+
+@mixin transition($property: all) {
+    transition-property: $property;
+    transition-duration: $duration;
+    transition-timing-function: $easing;
+}
+
+@mixin button-reset {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    padding: 0;
+    appearance: none;
+    @include text-kerning;
+}
+
+@mixin overlay {
+    background-color: $overlay-bg;
+    backdrop-filter: blur(10px);
+
+    @include darkmode {
+        background-color: $dark-overlay-bg;
+    }
+}
+
+@mixin backgroundGrass($color, $opacity) {
+    background-color: rgba(red($color), green($color), blue($color), $opacity);
+    backdrop-filter: saturate(200%) blur(5px);
+}
+
+@mixin scroll-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+    //-webkit-overflow-scrolling: touch;
+}
+
+@mixin scroll-y {
+    overflow-x: hidden;
+    overflow-y: auto;
+    //-webkit-overflow-scrolling: touch;
+}
+
+//***********************************************************************
+//  Radius
+//***********************************************************************
+@mixin rounded($radius: $border-radius, $fallback: false) {
+    @if $enable-rounded or $fallback {
+        border-radius: $radius;
+    }
+}
+
+@mixin rounded-top($radius: $border-radius, $fallback: false) {
+    @if $enable-rounded or $fallback {
+        border-top-left-radius: $radius;
+        border-top-right-radius: $radius;
+    }
+}
+
+@mixin rounded-bottom($radius: $border-radius, $fallback: false) {
+    @if $enable-rounded or $fallback {
+        border-bottom-left-radius: $radius;
+        border-bottom-right-radius: $radius;
+    }
+}
+
+@mixin rounded-left($radius: $border-radius, $fallback: false) {
+    @if $enable-rounded or $fallback {
+        border-top-left-radius: $radius;
+        border-bottom-left-radius: $radius;
+    }
+}
+
+@mixin rounded-right($radius: $border-radius, $fallback: false) {
+    @if $enable-rounded or $fallback {
+        border-top-right-radius: $radius;
+        border-bottom-right-radius: $radius;
+    }
+}
+
+//***********************************************************************
+//  Responsive
+//***********************************************************************
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
+
+@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
+    $max: map-get($breakpoints, $name);
+    @return if($max and $max > 0, $max - .02, null);
+}
+
+@function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
+    @return if(breakpoint-min($name, $breakpoints) == null, "", #{$name} + \:);
+}
+
+@mixin breakpoint-up($name: $breakpoint) {
+    $min: breakpoint-min($name, $grid-breakpoints);
+
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin breakpoint-down($name: $breakpoint) {
+    $max: breakpoint-max($name, $grid-breakpoints);
+
+    @if $max {
+        @media (max-width: $max) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+//***********************************************************************
+//  Base64 Icons
+//***********************************************************************
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+@function base64Encode($string) {
+    $string: str-replace(#{$string}, '#', '%23');
+    $string: str-replace(#{$string}, ',', '%2C');
+
+    @return $string;
+}

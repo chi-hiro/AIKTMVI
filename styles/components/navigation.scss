@@ -1,0 +1,307 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+$navigation-height: 56px;
+
+@mixin itemTheme($color) {
+    box-shadow: inset 0 math.div($navigation-height, -2) math.div($navigation-height, 2) rgba(0,0,0,0.07),
+                0 2px 0 lighten($color, 16%);
+
+    &.active {
+        border-color: $color;
+    }
+
+    @include hover-mouse {
+        border-color: $color;
+    }
+
+    .btn-navigation-parent {
+        .icon {
+            color: $color;
+        }
+    }
+
+    .btn-navigation-child {
+        background-color: $color;
+        border: 2px solid darken($color, 20%);
+        box-shadow: 0 2px 0 lighten($color, 16%);
+        text-shadow:    1px 1px 0 darken($color, 30%),
+                        -1px 1px 0 darken($color, 30%),
+                        1px -1px 0 darken($color, 30%),
+                        -1px -1px 0 darken($color, 30%),
+                        0 2px 1px rgba(0,0,0,0.1);
+    }
+
+    .index-badge {
+        background-color: $color;
+    }
+}
+
+#navigation {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0 4px calc(4px + env(safe-area-inset-bottom)) 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        height: spacer(1);
+        background-image: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.1));
+    }
+
+    body.sortable-now & {
+        pointer-events: none;
+    }
+}
+
+.navigation-item {
+    user-select: none;
+    height: $navigation-height;
+    display: flex;
+    justify-content: space-between;
+    gap: 2px;
+    position: relative;
+    z-index: 2;
+    border: 2px solid $body-color;
+    border-radius: 16px;
+    background-color: white;
+    background-image: url('/img/pattern-kirakira-dark.png');
+    background-size: 52px;
+    @include transition((border, width, transform));
+
+    &::before {
+        content: '';
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 16px;
+        border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .index-badge {
+        position: absolute;
+        top: -8px;
+        left: 8px;
+    }
+
+    .btn-navigation-parent {
+        @include transition(width);
+    }
+
+    &.active {
+        padding-right: 6px;
+
+        .btn-navigation-parent {
+            pointer-events: none;
+        }
+    }
+
+    &.animate {
+        animation: navigation_update_effect 300ms $easeOutBack;
+
+        .badge {
+            animation: navigation_update_badge_effect 300ms $easing;
+        }
+    }
+
+    &.videolist {
+        //width: 150px;
+        width: 200px;
+        flex: 0 1 auto;
+        @include itemTheme($brand-primary);
+
+        .btn-navigation-parent {
+            //width: 150px - 4px;
+            width: 100px - 4px;
+        }
+
+        &.active {
+            width: 200px;
+
+            .btn-navigation-parent {
+                width: 100px - 4px;
+            }
+
+            //+ .navigation-item.setlist {
+            //    width: 100px;
+
+            //    .btn-navigation-parent {
+            //        width: 100px - 4px;
+            //    }
+            //}
+        }
+    }
+
+    &.setlist {
+        //width: 150px;
+        width: 100px;
+        flex: 0 1 auto;
+        @include itemTheme($brand-secondary);
+
+        .btn-navigation-parent {
+            //width: 150px - 4px;
+            width: 100px - 4px;
+        }
+    }
+
+    &.menu {
+        width: 78px;
+        flex: 0 1 auto;
+        @include itemTheme($brand-tertiary);
+
+        .btn-navigation-parent {
+            width: 78px - 4px;
+        }
+
+        //&.active {
+        //    width: 182px;
+        //}
+    }
+}
+
+@keyframes navigation_update_effect {
+    50% { transform: translateY(-10%); }
+    100% { transform: none; }
+}
+
+@keyframes navigation_update_badge_effect {
+    50% { transform: scale(1.25); }
+    100% { transform: none; }
+}
+
+.btn-navigation-parent,
+.btn-navigation-child {
+    @include button-reset;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.btn-navigation-parent {
+    flex: 0 0 auto;
+    height: $navigation-height;
+    text-shadow: $text-shadow-white-dark;
+
+    @include transition(transform);
+    @include hover-mouse {
+        .icon {
+            transform: scale(1.1);
+        }
+    }
+
+    .icon {
+        text-shadow: none;
+        margin-top: -2px;
+        @include transition(transform);
+    }
+
+    .text {
+        color: $headings-color;
+    }
+}
+
+.navigation-child-group {
+    position: absolute;
+    right: 2px;
+    bottom: 4px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: spacer(0.25);
+
+    .btn-navigation-child {
+        margin: 0;
+    }
+}
+
+.btn-navigation-child {
+    height: $navigation-height;
+    position: relative;
+    z-index: 10;
+    border-radius: 16px;
+    color: white;
+    transition: transform 100ms $easing;
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 16px;
+        border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    @include hover-mouse {
+        transform: scale(1.02);
+    }
+
+    &:active {
+        transform: scale(1);
+        transition: none;
+    }
+
+    &.is-danger {
+        background-color: $brand-danger;
+    }
+}
+
+.navigation-child-enter {
+    transform: scale(0);
+}
+
+.navigation-child-enter-active {
+    transform: none;
+    transition: transform 200ms $easing 100ms;
+    will-change: transform;
+}
+
+.navigation-child-exit-active {
+    transform: scale(0);
+    transition: transform 200ms $easing;
+    will-change: transform;
+}
+
+.navigation-badge-enter,
+.navigation-badge-exit-active {
+    transform: scale(0);
+}
+
+.navigation-badge-enter-active {
+    transform: none;
+}
+
+.navigation-badge-enter-active,
+.navigation-badge-exit-active {
+    @include transition(transform);
+    will-change: transform;
+}

@@ -1,0 +1,261 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+//***********************************************************************
+//  Base
+//***********************************************************************
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: spacer(0.25);
+
+    position: relative;
+    z-index: 2;
+    user-select: none;
+    cursor: pointer;
+
+    color: inherit;
+    font-size: $input-font-size;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: $input-line-height;
+    vertical-align: top;
+    text-shadow: $text-shadow-white;
+    @include text-kerning;
+
+    padding: $input-padding-y $btn-padding-x;
+    border: $border-width solid transparent;
+    background-color: $muted-bg;
+    background-image: url('/img/pattern-planet-a40.svg');
+    background-size: (390px * 0.75) auto;
+    background-position: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    @include rounded(999px);
+    @include transition((color, background, border, text-shadow, box-shadow));
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: 1px solid rgba(255,255,255,0.3);
+        @include rounded(999px);
+    }
+
+    &:active {
+        transition: none;
+        transform: scale(0.98);
+        transform-origin: center bottom;
+    }
+
+    &.connecting {
+        pointer-events: none;
+    }
+
+    &.disabled,
+    &:disabled {
+        pointer-events: none;
+        cursor: default;
+        opacity: .3;
+        box-shadow: none;
+
+        .show {
+            animation: none !important;
+        }
+
+        &:active {
+            transform: none;
+        }
+    }
+
+    > * {
+        position: relative;
+        z-index: 2;
+    }
+}
+
+.btn-sm {
+    padding: $input-sm-padding-y $btn-padding-x;
+    font-size: $input-sm-font-size;
+    line-height: $input-sm-line-height;
+}
+
+.btn-lg {
+    padding: $input-lg-padding-y $btn-padding-x;
+    font-size: $input-lg-font-size;
+    line-height: $input-lg-line-height;
+}
+
+// block level
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-long {
+    min-width: 240px;
+}
+
+.lg\:btn-long {
+    @include breakpoint-up(lg) {
+        min-width: 240px;
+    }
+}
+
+// responsive block level
+@each $name in map-keys($grid-breakpoints) {
+    .btn-block-#{$name}-up {
+        @include breakpoint-up($name) {
+            display: block;
+            width: 100%;
+
+            &[class*='btn-icon-'] {
+                padding-right: $btn-padding-x + $icon-size;
+                padding-left: $btn-padding-x + $icon-size;
+            }
+        }
+    }
+
+    .btn-block-#{$name}-down {
+        @include breakpoint-down($name) {
+            display: block;
+            width: 100%;
+
+            &[class*='btn-icon-'] {
+                padding-right: $btn-padding-x + $icon-size;
+                padding-left: $btn-padding-x + $icon-size;
+            }
+        }
+    }
+}
+
+//***********************************************************************
+//  Icon
+//***********************************************************************
+.btn-icon-only {
+    width: $input-height;
+    padding: $input-padding-y;
+
+    &.btn-sm {
+        width: $input-sm-height;
+        padding: $input-sm-padding-y;
+    }
+
+    &.btn-lg {
+        width: $input-lg-height;
+        padding: $input-lg-padding-y;
+    }
+}
+
+//***********************************************************************
+//  UI
+//***********************************************************************
+.btn-switch {
+    display: inline-flex;
+    vertical-align: top;
+
+    .btn {
+        flex: 0 0 auto;
+        border-radius: 0;
+
+        &:first-child {
+            @include rounded-left($btn-border-radius);
+        }
+
+        &:last-child {
+            @include rounded-right($btn-border-radius);
+        }
+
+        &.active {
+            background-color: $brand-primary;
+            color: white;
+        }
+    }
+}
+
+//***********************************************************************
+//  Theme
+//***********************************************************************
+.btn {
+    @each $key, $color in $themes {
+        &.is-#{"" + $key} {
+            background-color: $color;
+            border-color: darken($color, 20%);
+            text-shadow:    1px 1px 0 darken($color, 30%),
+                            -1px 1px 0 darken($color, 30%),
+                            1px -1px 0 darken($color, 30%),
+                            -1px -1px 0 darken($color, 30%),
+                            0 0 2px darken($color, 30%);
+
+            @if $color == white {
+                color: $body-color;
+            } @else {
+                color: white;
+            }
+
+            @include hover-mouse {
+                border-color: darken($color, 30%);
+            }
+        }
+
+        &.is-outline-#{"" + $key} {
+            background-color: lighten($color, 30%);
+            color: $color;
+            border-color: $color;
+
+            @include hover-mouse {
+                border-color: darken($color, 30%);
+            }
+        }
+    }
+
+    &.is-link {
+        border-color: transparent;
+        background-color: transparent;
+        color: $link-color;
+        box-shadow: none !important;
+
+        @include hover-mouse {
+            background-color: $muted-bg;
+            color: $brand-primary;
+            border-color: transparent;
+
+            @include darkmode {
+                background-color: $dark-muted-bg;
+            }
+        }
+    }
+
+    &.is-default {
+        background-color: #F4F4F4;
+        color: $headings-color;
+        border-color: $border-light;
+
+        @include hover-mouse {
+            border-color: darken($border-light, 10%);
+        }
+    }
+
+    &.is-outline-default {
+        background-color: transparent;
+        color: $body-color;
+        border-color: $border-color;
+
+        @include darkmode {
+            background-color: transparent;
+            color: $dark-body-color;
+            border-color: $dark-border-color;
+        }
+
+        @include hover-mouse {
+            color: $link-hover-color;
+            border-color: $link-hover-color;
+        }
+    }
+}

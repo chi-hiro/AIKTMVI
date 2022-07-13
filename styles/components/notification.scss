@@ -1,0 +1,56 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+#toast {
+    position: fixed;
+    z-index: $zindex-modal;
+    top: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+
+    @include breakpoint-up {
+        top: spacer(1);
+    }
+}
+
+.notification {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: spacer(1);
+    box-shadow: $box-shadow-dark;
+
+    @include breakpoint-up {
+        width: 600px;
+        border-radius: 12px;
+        margin: 0 auto;
+    }
+
+    .icon {
+        flex: 0 0 auto;
+        margin-right: spacer(0.75);
+        color: white;
+    }
+
+    .body {
+        flex: 1 1 auto;
+        position: relative;
+        font-size: 0.875rem;
+        line-height: 1.5;
+
+        @include breakpoint-up {
+            font-size: 1rem;
+        }
+    }
+
+    transform: translateY(-120%);
+    opacity: 0;
+    @include transition((transform, opacity));
+
+    &.active {
+        transform: none;
+        opacity: 1;
+    }
+}

@@ -1,0 +1,667 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+$header-spacer: 10px;
+$header-button-height: 32px;
+$header-height: $header-button-height + $header-spacer * 2;
+
+//***********************************************************************
+//  Layout
+//***********************************************************************
+#sidebar {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #F3F3F3;
+    @include transition(transform);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-image: linear-gradient(150deg, $brand-primary, $brand-tertiary);
+        opacity: 0;
+        @include transition(opacity);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        bottom: 0;
+        right: 100%;
+        width: 1px;
+        background-color: $border-light;
+        opacity: 0;
+    }
+
+    &.drag {
+        transition: none;
+        will-change: transform;
+    }
+
+    body.desktop & {
+        width: 390px;
+
+        &::after {
+            opacity: 1;
+        }
+    }
+
+    body.mobile.landscape & {
+        width: 390px;
+        box-shadow: -2px 0 12px rgba(0,0,0,0.1);
+
+        &::after {
+            background-color: $body-color;
+            opacity: 1;
+        }
+
+        &.sidebar-exit-done {
+            box-shadow: none;
+
+            &::after {
+                opacity: 0;
+            }
+        }
+    }
+
+    body.mobile.portrait & {
+        margin-top: calc(math.percentage(math.div(9, 16)) + 56px);
+        left: 0;
+        transition: margin 200ms $easeOutCubic 200ms;
+
+        &.menu,
+        &.releasenote,
+        &.option,
+        &.report,
+        &.about {
+            margin-top: 0;
+        }
+    }
+
+    &.menu,
+    &.releasenote,
+    &.option,
+    &.report,
+    &.about {
+        &::before {
+            opacity: 1;
+        }
+    }
+}
+
+.sidebar-enter,
+.sidebar-exit {
+    will-change: transform;
+}
+
+.sidebar-enter,
+.sidebar-exit-active,
+.sidebar-exit-done {
+    transform: translateX(390px);
+}
+
+.sidebar-enter-active {
+    transform: none;
+}
+
+#sidebar-inner {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        background-image: url('/img/pattern-rhombus.png');
+        background-size: auto math.div(72px, 2);
+        background-position: center;
+        opacity: 0;
+    }
+
+    #sidebar.menu &,
+    #sidebar.releasenote &,
+    #sidebar.option &,
+    #sidebar.report &,
+    #sidebar.about & {
+        &::before {
+            opacity: 0.05;
+        }
+    }
+}
+
+#sidebar-handle {
+    @include button-reset;
+    cursor: ew-resize;
+    position: absolute;
+    z-index: 100;
+    left: -38px;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    height: 100%;
+    @include transition(opacity);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: spacer(1.25);
+        width: 6px;
+        height: 160px;
+        background-color: white;
+        border-radius: 999px;
+        box-shadow: 0 1px 12px rgba(0,0,0,0.2);
+        margin: auto 0;
+    }
+
+    .sidebar-exit-active &,
+    .sidebar-exit-done & {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    body.mobile.portrait &,
+    body.desktop & {
+        display: none;
+    }
+}
+
+//***********************************************************************
+//  UI
+//***********************************************************************
+#sidebar-header,
+#sidebar-header-bar {
+    height: $header-height;
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $header-spacer;
+
+    .button {
+        flex: 0 0 auto;
+    }
+
+    .ui {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: spacer(0.25);
+    }
+
+    body.sortable-now & {
+        pointer-events: none;
+    }
+
+    // Transition
+    transition: transform 200ms $easing;
+    transform: translateY(-100%);
+
+    .page-enter-active & {
+        transform: none;
+    }
+
+    .page-enter-done & {
+        transform: none;
+    }
+}
+
+#sidebar-header-bar {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid $border-light;
+    padding: 0 $header-spacer;
+}
+
+#sidebar-header {
+    padding: 0 $header-spacer 0 0;
+    align-items: flex-end;
+
+    .title {
+        flex: 0 0 auto;
+        position: relative;
+        pointer-events: none;
+        user-select: none;
+        flex: 0 0 auto;
+
+        display: flex;
+        align-items: center;
+        gap: spacer(0.5);
+        height: 40px;
+        margin: 0;
+        padding: 0 spacer(1.5) 0 spacer(1);
+        background-color: white;
+        border-radius: 0 999px 999px 0;
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.15);
+
+        font-size: 1rem;
+        font-weight: bold;
+        @include text-kerning;
+        line-height: $icon-size;
+        text-shadow: $text-shadow-white;
+
+        &::before {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            top: 2px;
+            bottom: 2px;
+            left: 0;
+            right: 2px;
+            border: 1px dashed $border-light;
+            border-left: none;
+            border-radius: 0 999px 999px 0;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            z-index: 3;
+            bottom: -6px;
+            right: -8px;
+            width: 30px;
+            height: 32px;
+            background: url('/img/heading-kirakira3.png') no-repeat;
+            background-size: 100%;
+        }
+
+        .icon {
+            color: $brand-primary;
+            margin-left: spacer(-0.25);
+        }
+
+        // Transition
+        transform: translateX(-150%);
+
+        &::after {
+            transition: transform 200ms $easeOutBack;
+            transform: scale(0);
+        }
+
+        .page-enter-active & {
+            &::after {
+                transform: scale(0);
+            }
+        }
+
+        .page-enter-done & {
+            transition: transform 200ms $easing;
+            transform: none;
+
+            &::after {
+                transform: none;
+            }
+        }
+
+        .page-exit & {
+            transform: none;
+
+            &::after {
+                transform: none;
+            }
+        }
+    }
+
+    .btn-sidebar {
+        box-shadow: 0 2px 2px rgba(0,0,0,0.15);
+    }
+
+    .btn-help {
+        margin-bottom: math.div(40px - 32px, 2);
+    }
+
+    .btn-back {
+        @include button-reset;
+        position: relative;
+        z-index: 10;
+        line-height: 1;
+        margin: 0;
+        padding: math.div(40px - $icon-size, 2);
+        padding-right: spacer(1);
+        background-color: $brand-tertiary;
+        color: white;
+        border-radius: 0 999px 999px 0;
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.15);
+
+        &::before {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            top: 2px;
+            bottom: 2px;
+            left: 0;
+            right: 2px;
+            border: 1px dashed rgba(0,0,0,0.2);
+            border-left: none;
+            border-radius: 0 999px 999px 0;
+        }
+
+        .icon {
+            display: block;
+            transform: rotate(-90deg);
+            margin: 0;
+            line-height: $icon-size;
+        }
+
+        + .title {
+            padding-left: spacer(1.5);
+            margin-left: spacer(-1);
+        }
+
+        // Transition
+        transform: translateX(-100%);
+
+        .page-enter-done & {
+            transition: transform 200ms $easing;
+            transform: none;
+        }
+
+        .page-exit & {
+            transform: none;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        background-image: url('/img/bg-acce.png');
+        background-size: math.div(100px, 2) auto;
+        background-repeat: repeat-x;
+
+        // Transition
+        transform: translateY(-100%);
+        @include transition(transform);
+
+        .page-enter-active &,
+        .page-enter-done & {
+            transform: none;
+        }
+    }
+}
+
+.btn-sidebar {
+    @include button-reset;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: spacer(0.25);
+
+    min-width: $header-button-height;
+    min-height: $header-button-height;
+    padding: math.div($header-button-height - 2px - $icon-size, 2) spacer(0.75);
+    border: 1px solid $border-light;
+    border-radius: $btn-border-radius;
+    background-color: white;
+    box-shadow: 0 1px 2px $border-light;
+
+    line-height: $icon-size;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    color: $headings-color;
+
+    &.active {
+        #sidebar.setlist & {
+            background-color: $brand-secondary;
+            border-color: darken($brand-secondary, 5%);
+            color: white;
+
+            .icon {
+                color: white !important;
+            }
+
+            &::before {
+                background-color: darken($brand-secondary, 5%);
+            }
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+        box-shadow: none;
+        filter: grayscale(100);
+
+        > * {
+            opacity: 0.3;
+        }
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
+
+    > * {
+        position: relative;
+        z-index: 2;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background-color: #F6F4F3;
+        border-radius: 0 0 $btn-border-radius $btn-border-radius;
+    }
+
+    .icon {
+        margin-left: spacer(-0.25);
+
+        > * {
+            font-size: 20px;
+        }
+    }
+
+    .text {
+        @include text-clamp(1);
+        text-align: left;
+    }
+
+    .label {
+        color: white;
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 0 spacer(0.5);
+        background-color: $brand-gold;
+        border-radius: 999px;
+    }
+
+    .index-badge {
+        position: absolute;
+        z-index: 10;
+        top: -8px;
+        right: -10px;
+    }
+
+    &.btn-icon-only {
+        width: $header-button-height;
+        padding-left: 0;
+        padding-right: 0;
+
+        .icon {
+            margin: 0;
+        }
+    }
+
+    &.btn-quickchange-prev {
+        flex: 0 0 auto;
+        width: 40px;
+        padding-left: 0;
+        padding-right: 0;
+        border-radius: $btn-border-radius 0 0 $btn-border-radius;
+
+        &::before {
+            border-radius: $btn-border-radius 0 0 $btn-border-radius;
+        }
+
+        .icon {
+            margin: 0;
+        }
+    }
+
+    &.btn-quickchange-next {
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        gap: 0;
+        border-left: 0;
+        border-radius: 0 $btn-border-radius $btn-border-radius 0;
+
+        &::before {
+            border-radius: 0 $btn-border-radius $btn-border-radius 0;
+        }
+    }
+
+    &.btn-quickchange-reset {
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        padding-left: spacer(0.5);
+    }
+
+    &.btn-layout {
+        flex: 0 0 auto;
+        padding: 0;
+        gap: 0;
+        overflow: hidden;
+
+        .icon {
+            flex: 0 0 auto;
+            margin: 0;
+            padding: math.div($header-button-height - 2px - 20px, 2);
+            color: $muted-color;
+
+            > * {
+                font-size: 20px;
+            }
+
+            &.active {
+                color: white;
+                background-color: $brand-primary;
+            }
+        }
+    }
+
+    &.btn-edit {
+        justify-content: flex-start;
+    }
+
+    &.btn-remove {
+        justify-content: flex-start;
+    }
+
+    &.btn-help {
+        flex: 0 0 auto;
+        padding-left: 0;
+        padding-right: 0;
+        border-radius: 999px;
+
+        &::before {
+            border-radius: 0 0 999px 999px;
+        }
+
+        .icon {
+            color: $headings-color;
+            margin: 0;
+        }
+    }
+}
+
+.sidebar-body {
+    position: relative;
+    z-index: 10;
+
+    .custom-scroller-body {
+        padding-top: $header-height;
+        padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    }
+
+    .custom-scroller-line {
+        top: $header-height;
+        bottom: calc(64px + env(safe-area-inset-bottom));
+    }
+}
+
+//***********************************************************************
+//  Sectioning
+//***********************************************************************
+.sidebar-section {
+    overflow: hidden;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 1px $border-color;
+    padding: spacer(1.5);
+
+    + .sidebar-section {
+        margin-top: 10px;
+    }
+
+    .heading {
+        position: relative;
+        user-select: none;
+        font-size: 1.125rem;
+        font-weight: normal;
+        margin: 0 0 spacer(1.5);
+
+        .text {
+            display: inline-block;
+            background-image: linear-gradient(90deg, $brand-primary, $brand-tertiary);
+            background-clip: text;
+            color: transparent;
+            margin: 0 spacer(-1);
+            padding: 0 spacer(1);
+        }
+    }
+
+    // Transition
+    transform: translateY(30px);
+    opacity: 0;
+
+    .page-enter &,
+    .page-enter-done & {
+        @include transition((transform, opacity));
+        transform: none;
+        opacity: 1;
+
+        @for $cnt from 1 through 5 {
+            &:nth-child(#{$cnt}) {
+                transition-delay: ($cnt - 1) * 50ms;
+            }
+        }
+    }
+
+    .page-exit & {
+        transition: transform 200ms $easing, opacity 200ms $easing;
+    }
+}

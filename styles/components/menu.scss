@@ -1,0 +1,160 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+.menu-container {
+    position: relative;
+    z-index: 10;
+    padding: spacer(2.5) spacer(2) spacer(1.5);
+}
+
+.menu-item {
+    @include button-reset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: spacer(0.5);
+
+    .icon {
+        display: block;
+        width: 76px;
+        height: 76px;
+        border-radius: 24px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+
+        img {
+            width: 100%;
+            height: 100%;
+            vertical-align:top;
+        }
+    }
+
+    .text {
+        color: white;
+        font-size: 0.8125rem;
+        font-weight: bold;
+        letter-spacing: -0.05em;
+        @include nowrap;
+    }
+
+    &:active {
+        transform: scale(1.25);
+    }
+
+    // Transition
+    transform: scale(0);
+
+    .page-enter-done & {
+        @include transition(transform);
+        transform: none;
+
+        @for $cnt from 1 through 5 {
+            &:nth-child(#{$cnt}) {
+                transition-delay: ($cnt - 1) * 50ms;
+            }
+        }
+    }
+
+    .page-exit & {
+        transition: opacity 200ms $easeInBack, transform 200ms $easeInBack;
+        opacity: 0;
+    }
+}
+
+.updatenote {
+    padding: spacer(1);
+    opacity: 0;
+
+    // Transition
+    .page-enter-active &,
+    .page-enter-done & {
+        transition: opacity 200ms $easing;
+        opacity: 1;
+    }
+
+    .page-exit & {
+        transition: opacity 200ms $easing;
+    }
+}
+
+.updatenote-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-bottom: spacer(0.5);
+    padding: 0 spacer(1);
+
+    // Transition
+    opacity: 0;
+
+    .updatenote-enter-done & {
+        @include transition(opacity);
+        opacity: 1;
+    }
+}
+
+.updatenote-item {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px) saturate(150%);
+    border-radius: spacer(1);
+    padding: spacer(1.25);
+    color: white;
+    font-size: 0.875rem;
+
+    + .updatenote-item {
+        margin-top: spacer(0.25);
+    }
+
+    .label {
+        display: flex;
+        align-items: center;
+        gap: spacer(0.5);
+        font-weight: bold;
+
+        &::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 100%;
+            background-color: white;
+        }
+
+        &.is-primary::before {
+            background-color: $brand-primary;
+        }
+
+        &.is-secondary::before {
+            background-color: $brand-secondary;
+        }
+
+        &.is-tertiary::before {
+            background-color: $brand-tertiary;
+        }
+    }
+
+    .date {
+        color: rgba(255,255,255,0.5);
+    }
+
+    .body {
+        margin-top: spacer(0.5);
+    }
+
+    // Transition
+    transform: translateY(30px);
+    opacity: 0;
+
+    .updatenote-enter-done & {
+        transform: none;
+        opacity: 1;
+        @include transition((transform, opacity));
+
+        @for $cnt from 1 through 4 {
+            &:nth-child(#{$cnt}) {
+                transition-delay: ($cnt - 1) * 50ms;
+            }
+        }
+    }
+}

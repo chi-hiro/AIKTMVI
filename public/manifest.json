@@ -1,0 +1,8 @@
+{
+    "name": "AIKT!.MV∞",
+    "short_name": "AIKT!.MV∞",
+    "description": "アイカツ！のミュージックビデオを無限に見るやつ",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/"
+}

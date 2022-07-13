@@ -1,0 +1,67 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+.expansion {
+    position: relative;
+
+    .expansion-toggler {
+        width: 100%;
+        justify-content: space-between;
+        border-radius: 8px;
+        padding-left: spacer(1);
+        padding-right: spacer(1);
+        box-shadow: none;
+        @include transition(border-radius);
+
+        .body {
+            flex: 1 1 auto;
+            font-size: 0.875rem;
+            text-align: left;
+            color: $headings-color;
+        }
+
+        .icon {
+            flex: 0 0 auto;
+            transform: rotate(90deg);
+            @include transition(transform);
+
+            > * {
+                font-size: 16px;
+            }
+        }
+
+        &:active {
+            transform: none;
+        }
+    }
+
+    .expansion-body {
+        overflow: hidden;
+        border: 2px solid $border-light;
+        border-top: none;
+        background-color: white;
+        @include rounded-bottom(spacer(0.5));
+        @include transition((height));
+    }
+
+    .expansion-inner {
+        padding: spacer(1);
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &.active {
+        z-index: 10;
+
+        .expansion-toggler {
+            border-radius: 8px 8px 0 0;
+            transition: none;
+
+            .icon {
+                transform: rotate(-90deg);
+            }
+        }
+    }
+}

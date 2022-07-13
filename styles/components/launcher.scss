@@ -1,0 +1,700 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+#launcher {
+    position: fixed;
+    z-index: $zindex-overlay;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-image: linear-gradient(0deg, $brand-primary, $brand-secondary);
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        background-image: url('/img/pattern-rhombus.png');
+        background-size: auto math.div(56px, 1.5);
+        background-position: center;
+        opacity: 0.1;
+    }
+
+    &.launcher-exit {
+        transition: opacity 200ms linear;
+    }
+
+    &.launcher-exit-active {
+        opacity: 0;
+    }
+}
+
+.launcher-inner {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+//***********************************************************************
+//  Connect
+//***********************************************************************
+#launcher-connect-sequence {
+    position: relative;
+    z-index: 10;
+    width: 360px;
+    height: 110px;
+
+    .stage-bg-top {
+        position: absolute;
+        z-index: 2;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .stage-bg-bottom {
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .stage {
+        display: block;
+        width: 90px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: #594848;
+
+        position: absolute;
+        z-index: 3;
+        bottom: 8px;
+
+        &.stage1 {
+            left: 35px;
+            background-color: #0ADDDF;
+        }
+
+        &.stage2 {
+            right: 35px;
+            background-color: #594848;
+        }
+    }
+
+    &.phase2 {
+        #launcher-connect-chara .chara {
+            transform: translate3D(202px, 0, 0);
+            transition: transform 1700ms linear;
+        }
+    }
+
+    &.phase3 {
+        .stage2 {
+            background-color: #0ADDDF;
+            transition: background 200ms ease-out;
+        }
+
+        #launcher-connect-chara .chara {
+            transform: translate3D(202px, 0, 0);
+            background-position: 0 -240px;
+            animation: chara_jump 300ms steps(4) 2;
+            animation-delay: 300ms;
+        }
+    }
+}
+
+#launcher-connect-chara {
+    user-select: none;
+    position: absolute;
+    z-index: 4;
+    left: 4px;
+    bottom: 18px;
+    width: 110px + 36px;
+    height: 120px;
+
+    .chara {
+        display: block;
+        width: 110px;
+        height: 120px;
+        position: absolute;
+        top: 0;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        animation: chara_walk 1.5s steps(1) infinite;
+
+        &.chara1 { left: 0; z-index: 2; }
+        &.chara2 { left: 36px; z-index: 1; }
+
+        &.yume { background-image: url(/img/chara-yume.png); }
+        &.rola { background-image: url(/img/chara-rola.png); }
+        &.aine { background-image: url(/img/chara-aine.png); }
+        &.mio  { background-image: url(/img/chara-mio.png); }
+    }
+
+    &.jump {
+        .chara {
+            background-position: 0 -240px;
+            animation: chara_jump 300ms steps(4) 2;
+            animation-delay: 500ms;
+        }
+    }
+}
+
+@keyframes chara_walk {
+	  0% { background-position: 0 0; margin-top: 0px; }
+     50% { background-position: 0 -120px; margin-top: -2px; }
+	100% { background-position: 0 0; margin-top: 0px; }
+}
+
+@keyframes chara_jump {
+      0% { margin-top: 0px; }
+     40% { margin-top: -12px; }
+     60% { margin-top: -18px; }
+     80% { margin-top: -12px; }
+    100% { margin-top: 0; }
+}
+
+#launcher-connect-message {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    margin-top: spacer(2);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: spacer(0.5);
+
+    .loader-spin {
+        margin: 0;
+
+        .path {
+            stroke: white;
+        }
+    }
+}
+
+//***********************************************************************
+//  Tutorial
+//***********************************************************************
+#launcher-tutorial {
+    > .btn {
+        margin-top: spacer(1);
+        margin-bottom: spacer(-1);
+    }
+}
+
+#launcher-tutorial-page {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    @include breakpoint-up {
+        height: 400px;
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        pointer-events: none;
+        position: absolute;
+        left: -50px;
+        right: -50px;
+        height: 16px;
+        background-image: url('/img/modal-lace-loop.svg');
+        background-size: auto 100%;
+        background-repeat: repeat-x;
+    }
+
+    &::before {
+        top: -15px;
+        animation: lace_slide_T 4000ms infinite linear;
+    }
+
+    &::after {
+        bottom: -15px;
+        animation: lace_slide_B 4000ms infinite linear;
+    }
+
+    .inner {
+        max-width: 440px;
+        width: 100%;
+        padding: math.div($grid-gutter-width, 2);
+        font-weight: bold;
+        line-height: 1.75;
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        @include breakpoint-up {
+            font-size: 1.125rem;
+        }
+    }
+
+    .tutorial-slide {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 210px;
+
+        @include breakpoint-up {
+            height: 262px;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            animation: tutorial_slide_change 6000ms linear infinite;
+
+            &:nth-child(2) {
+                animation-delay: 3000ms;
+            }
+        }
+    }
+}
+
+@keyframes tutorial_slide_change {
+    50% { opacity: 1; }
+    51% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+#launcher-tutorial-footer {
+    position: relative;
+    width: 320px;
+    height: 117px;
+    margin-top: -56px;
+    padding: 0;
+
+    .chara {
+        width: auto;
+        height: 117px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .message {
+        user-select: none;
+        position: absolute;
+        z-index: 2;
+        top: 30px;
+        right: 0;
+        width: 242px;
+        height: 55px;
+        background: url('/img/howto-balloon.png');
+        background-size: contain;
+        transform-origin: left center;
+
+        span {
+            display: block;
+            position: absolute;
+            top: 12px;
+            left: 24px;
+            right: 0;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+
+            text-shadow:    1px 0 0 darken($brand-secondary, 30%),
+                            0 1px 0 darken($brand-secondary, 30%),
+                            -1px 0 0 darken($brand-secondary, 30%),
+                            0 -1px 0 darken($brand-secondary, 30%),
+                            0 0 2px darken($brand-secondary, 30%);
+        }
+
+        &::after {
+            content: '';
+            pointer-events: none;
+            position: absolute;
+            z-index: 2;
+            right: -12px;
+            top: -4px;
+            width: 29px;
+            height: 34px;
+            background: url('/img/heading-kirakira1.png') no-repeat;
+            background-size: contain;
+        }
+    }
+
+    .dots {
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: spacer(0.5);
+        display: flex;
+        justify-content: center;
+        gap: spacer(0.25);
+
+        > * {
+            width: 8px;
+            height: 8px;
+            background-color: darken($brand-primary, 20%);
+            border-radius: 999px;
+
+            &.active {
+                background-color: white;
+            }
+        }
+    }
+}
+
+//***********************************************************************
+//  Transition
+//***********************************************************************
+.launcher-exit {
+    transition: opacity 200ms linear;
+    will-change: opacity;
+}
+
+.launcher-exit-active {
+    opacity: 0;
+}
+
+.launcher-inner-enter {
+    #launcher-connect-sequence {
+        .stage,
+        .stage-bg-top {
+            opacity: 0;
+            transform: translate3D(0, 30px, 0);
+
+            transition: transform 300ms $easeOutBack 300ms, opacity 300ms linear 300ms;
+            will-change: transform, opacity;
+        }
+
+        .stage-bg-bottom {
+            opacity: 0;
+            transform: translate3D(0, 30px, 0);
+
+            transition: transform 300ms $easeOutBack 400ms, opacity 300ms linear 400ms;
+            will-change: transform, opacity;
+        }
+    }
+
+    #launcher-connect-chara .chara {
+        opacity: 0;
+        transform: translate3D(0, -30px, 0);
+
+        transition: transform 200ms ease-out 500ms, opacity 200ms linear 500ms;
+        will-change: transform, opacity;
+
+        &.chara2 {
+            transition-delay: 550ms;
+        }
+    }
+
+    #launcher-connect-message {
+        opacity: 0;
+
+        transition: opacity 200ms linear 600ms;
+        will-change: opacity;
+    }
+
+    #launcher-tutorial-page {
+        transform: scale(1, 0);
+
+        transition: transform 500ms $easeOutBack;
+        will-change: transform;
+
+        &::before, &::after {
+            transition: margin 300ms $easing 200ms;
+            will-change: margin;
+        }
+
+        &::before {
+            margin-top: 16px;
+        }
+
+        &::after {
+            margin-bottom: 16px;
+        }
+
+        .inner {
+            opacity: 0;
+
+            transition: opacity 200ms linear 300ms;
+            will-change: opacity;
+        }
+    }
+
+    #launcher-tutorial-footer {
+        transform: translateY(20px);
+        opacity: 0;
+
+        transition: transform 300ms $easeOutBack 500ms, opacity 300ms linear 500ms;
+        will-change: transform, opacity;
+    }
+
+    #launcher-tutorial-btn {
+        transform: scale(0);
+        opacity: 0;
+
+        transition: transform 300ms $easeOutBack 500ms, opacity 300ms linear 500ms;
+        will-change: transform, opacity;
+    }
+}
+
+.launcher-inner-enter-active {
+    #launcher-connect-sequence {
+        .stage,
+        .stage-bg-top,
+        .stage-bg-bottom {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    #launcher-connect-chara .chara {
+        transform: none;
+        opacity: 1;
+    }
+
+    #launcher-connect-message {
+        opacity: 1;
+    }
+
+    #launcher-tutorial-page {
+        transform: none;
+
+        &::before, &::after {
+            margin: 0;
+        }
+
+        .inner {
+            opacity: 1;
+        }
+    }
+
+    #launcher-tutorial-footer {
+        transform: none;
+        opacity: 1;
+    }
+
+    #launcher-tutorial-btn {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+.launcher-inner-exit {
+    .launcher-inner {
+        transition: opacity 800ms linear;
+        will-change: opacity;
+    }
+
+    #launcher-connect-sequence {
+        .stage,
+        .stage-bg-top {
+            transition: transform 300ms $easeInBack 400ms, opacity 300ms $easeInBack 400ms;
+            will-change: transform, opacity;
+        }
+
+        .stage-bg-bottom {
+            transition: transform 300ms $easeInBack 300ms, opacity 300ms $easeInBack 300ms;
+            will-change: transform, opacity;
+        }
+    }
+
+    #launcher-connect-chara .chara {
+        transition: margin 300ms $easeOutBack, opacity 300ms linear;
+        will-change: margin, opacity;
+    }
+
+    #launcher-connect-message {
+        transition: opacity 300ms linear;
+        will-change: opacity;
+    }
+
+    #launcher-tutorial-page {
+        transition: transform 400ms $easeInBack 200ms;
+        will-change: transform;
+
+        .inner {
+            transition: opacity 200ms linear;
+            will-change: opacity;
+        }
+    }
+
+    #launcher-tutorial-footer {
+        transition: transform 300ms $easeInBack, opacity 300ms linear;
+        will-change: transform, opacity;
+    }
+
+    #launcher-tutorial-btn {
+        transition: transform 300ms $easeOutBack, opacity 300ms linear;
+        will-change: transform, opacity;
+    }
+}
+
+.launcher-inner-exit-active {
+    .launcher-inner {
+        opacity: 0;
+    }
+
+    #launcher-connect-sequence {
+        .stage,
+        .stage-bg-top {
+            opacity: 0;
+            transform: translate3D(0, 30px, 0);
+        }
+
+        .stage-bg-bottom {
+            opacity: 0;
+            transform: translate3D(0, 30px, 0);
+        }
+    }
+
+    #launcher-connect-chara .chara {
+        opacity: 0;
+        margin-top: -30px;
+    }
+
+    #launcher-connect-message {
+        opacity: 0;
+    }
+
+    #launcher-tutorial-page {
+        transform: scale(1, 0);
+
+        .inner {
+            opacity: 0;
+        }
+    }
+
+    #launcher-tutorial-footer {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    #launcher-tutorial-btn {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.tutorial-page-enter {
+    position: absolute;
+    transform: translateX(100%);
+    opacity: 0;
+
+    @include transition((transform, opacity));
+    will-change: transform, opacity;
+}
+
+.tutorial-page-enter-active {
+    transform: none;
+    opacity: 1;
+}
+
+.tutorial-page-exit {
+    position: absolute;
+
+    @include transition((transform, opacity));
+    will-change: transform, opacity;
+}
+
+.tutorial-page-exit-active {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.tutorial-footer-enter {
+    .message {
+        transform: scale(0, 1);
+
+        @include transition(transform);
+        will-change: transform;
+
+        span {
+            opacity: 0;
+
+            @include transition(opacity);
+            will-change: opacity;
+        }
+
+        &::after {
+            opacity: 0;
+
+            @include transition(opacity);
+            will-change: opacity;
+        }
+    }
+}
+
+.tutorial-footer-enter-active {
+    .chara {
+        animation: chara_jump 300ms steps(4) 1;
+    }
+
+    .message {
+        transform: none;
+
+        span {
+            opacity: 1;
+        }
+
+        &::after {
+            opacity: 1;
+        }
+    }
+}
+
+.tutorial-footer-exit {
+    .message {
+        @include transition(transform);
+        will-change: transform;
+
+        span {
+            @include transition(opacity);
+            will-change: opacity;
+        }
+
+        &::after {
+            @include transition(opacity);
+            will-change: opacity;
+        }
+    }
+}
+
+.tutorial-footer-exit-active {
+    .message {
+        transform: scale(0, 1);
+
+        span {
+            opacity: 0;
+        }
+
+        &::after {
+            opacity: 0;
+        }
+    }
+}

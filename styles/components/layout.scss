@@ -1,0 +1,74 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+//***********************************************************************
+//  Layout
+//***********************************************************************
+body {
+    &.mobile.landscape {
+        background-color: #000000;
+    }
+}
+
+#__next {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+}
+
+main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    body.mobile.landscape & {
+        height: 100%;
+        padding: 0;
+        margin-right: 0;
+    }
+
+    body.mobile.portrait & {
+        flex: 0 0 auto;
+    }
+
+    body.desktop & {
+        height: 100vh;
+        margin-right: 390px;
+        padding: 10px;
+    }
+
+    &.fullscreen {
+        body.desktop & {
+            padding: 0;
+            margin-right: 0;
+        }
+    }
+}
+
+//***********************************************************************
+//  UI
+//***********************************************************************
+.index-badge {
+    background-color: $body-color;
+    color: white;
+    text-shadow: 0 1px 0 $border-color;
+    font-size: 11px;
+    line-height: 22px - 2px * 2;
+    min-width: 22px;
+    padding: 0 4px;
+    border-radius: 999px;
+    border: 2px solid $border-color;
+
+    &.is-primary {
+        background-color: $brand-primary;
+    }
+
+    &.is-secondary {
+        background-color: $brand-secondary;
+    }
+}

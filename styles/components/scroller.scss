@@ -1,0 +1,116 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+.custom-scroller {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    &.custom-scroller-hidden {
+        .custom-scroller-line {
+            opacity: 0;
+        }
+    }
+}
+
+.custom-scroller-body {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -8px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-right: 8px;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+    }
+
+    &.lock {
+        overflow: hidden !important;
+    }
+}
+
+.custom-scroller-line {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: transparent;
+    @include transition(opacity);
+}
+
+.custom-scroller-bar {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    background-color: $brand-secondary;
+    background-clip: content-box;
+    border-radius: 999px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+
+    &.transition {
+        @include transition((height, top));
+        will-change: height, top;
+    }
+}
+
+.custom-scroller-btn {
+    background-image: none;
+    padding: math.div(40px - 4px - 18px, 2);
+    width: 40px;
+    line-height: 1;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+
+    position: absolute;
+    z-index: 100;
+    right: spacer(0.75);
+
+    .icon > * {
+        font-size: 18px;
+    }
+
+    &.up {
+        top: spacer(0.75) + 52px;
+    }
+
+    &.down {
+        bottom: calc(spacer(1.25) + 56px + env(safe-area-inset-bottom));
+    }
+
+    transition: opacity 100ms ease-out;
+
+    body.sortable-now & {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+.scroller-btn-enter {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.scroller-btn-enter-active {
+    opacity: 1;
+    transform: none;
+    transition: opacity 300ms linear, transform 300ms $easeOutBack;
+    will-change: opacity, transform;
+}
+
+.scroller-btn-exit-active {
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 300ms linear, transform 300ms $easeInBack;
+    will-change: opacity, transform;
+}

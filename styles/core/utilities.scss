@@ -1,0 +1,268 @@
+@use 'sass:math';
+@use '/styles/core/core' as *;
+
+//***********************************************************************
+//  Border
+//***********************************************************************
+.border {
+    border: 1px solid $border-color;
+    @include darkmode { border-color: $dark-border-color; }
+}
+
+.border-t {
+    border-top: 1px solid $border-color;
+    @include darkmode { border-color: $dark-border-color; }
+}
+
+.border-b {
+    border-bottom: 1px solid $border-color;
+    @include darkmode { border-color: $dark-border-color; }
+}
+
+.border-l {
+    border-left: 1px solid $border-color;
+    @include darkmode { border-color: $dark-border-color; }
+}
+
+.border-r {
+    border-right: 1px solid $border-color;
+    @include darkmode { border-color: $dark-border-color; }
+}
+
+//***********************************************************************
+//  Display
+//***********************************************************************
+.hidden-bp-up {
+    @include breakpoint-up {
+        display: none !important;
+    }
+}
+
+.hidden-bp-down {
+    @include breakpoint-down {
+        display: none !important;
+    }
+}
+
+.hidden-lightmode {
+    @media (prefers-color-scheme: light) {
+        display: none !important;
+    }
+
+    @media all and (-ms-high-contrast:none) {
+        display: none !important;
+    }
+}
+
+.hidden-darkmode {
+    @include darkmode {
+        display: none !important;
+    }
+}
+
+//***********************************************************************
+//  Image
+//***********************************************************************
+.img-fluid {
+    @include img-fluid;
+}
+
+//***********************************************************************
+//  Embed
+//***********************************************************************
+$embed-ratio: (1 1), (16 9), (21, 9), (4 3), (3 1), (2 1);
+
+.embed {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &::before {
+        display: block;
+        content: '';
+        padding-top: math.percentage(math.div(1, 1));
+    }
+
+    iframe,
+    embed,
+    object,
+    video,
+    img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    img {
+        object-fit: cover;
+    }
+
+    a & {
+        margin-bottom: 0;
+    }
+}
+
+@each $value in $embed-ratio {
+    .embed-#{nth($value, 1)}by#{nth($value, 2)} {
+        &::before {
+            padding-top: math.percentage(math.div(nth($value, 2), nth($value, 1)));
+        }
+
+        &.portrait::before {
+            padding-top: math.percentage(math.div(nth($value, 1), nth($value, 2)));
+        }
+    }
+
+    @include breakpoint-up {
+        .lg\:embed-#{nth($value, 1)}by#{nth($value, 2)} {
+            &::before {
+                padding-top: math.percentage(math.div(nth($value, 2), nth($value, 1))) !important;
+            }
+
+            &.portrait::before {
+                padding-top: math.percentage(math.div(nth($value, 1), nth($value, 2))) !important;
+            }
+        }
+    }
+}
+
+//***********************************************************************
+//  Hover
+//***********************************************************************
+.hover-border {
+    display: block;
+    position: relative;
+
+    &::after {
+        content: '';
+        pointer-events: none;
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: $border-width solid $link-color;
+        opacity: 0;
+        transition: opacity $duration linear;
+    }
+
+    @include focus-mouse {
+        &::after {
+            opacity: 1;
+        }
+    }
+}
+
+.hover-zoom {
+    transition: transform 800ms $easeOutQuint;
+
+    @include focus-mouse {
+        transform: scale(1.03);
+    }
+}
+
+.hover-opacity {
+    display: block;
+    transition: opacity $duration linear;
+
+    @include focus-mouse {
+        opacity: 0.85;
+    }
+}
+
+//***********************************************************************
+//  Generate Utilities
+//***********************************************************************
+$utilities: () !default;
+$utilities: map-merge(
+    (
+        // Color
+        //***************************************************************
+        "text-color": (
+            important: true,
+            property: color,
+            class: text,
+            values: map-merge($themes, (reset: inherit))
+        ),
+
+        "bg-color": (
+            important: true,
+            property: background-color,
+            class: bg,
+            values: map-merge($themes, (transparent: transparent))
+        ),
+
+        "border-color": (
+            important: true,
+            property: border-color,
+            class: border,
+            values: $themes
+        )
+    ),
+    $utilities
+);
+
+@each $name in map-keys($grid-breakpoints) {
+    @include breakpoint-up($name) {
+        $infix: breakpoint-infix($name, $grid-breakpoints);
+
+        @each $name, $utility in $utilities {
+            @if type-of($utility) == "map" and (map-get($utility, responsive) or $infix == "") {
+                $values: map-get($utility, values);
+
+                @if type-of($values) == "string" or type-of(nth($values, 1)) != "list" {
+                    $values: zip($values, $values);
+                }
+
+                @each $key, $value in $values {
+                    $properties: map-get($utility, property);
+                    $property-class: if(map-has-key($utility, class), map-get($utility, class), nth($properties, 1));
+                    $property-class-modifier: if($key, if($property-class == "" and $infix == "", "", "-") + $key, "");
+
+                    .#{$infix + $property-class + $property-class-modifier} {
+                        @each $property in $properties {
+                            #{$property}: $value if(map-get($utility, important), !important, null);
+                        }
+
+                        // Custom
+                        @if $name == 'background-size' {
+                            background-repeat: no-repeat;
+                            background-position: center;
+                        }
+
+                        @if $name == 'bg-color' and $value != white {
+                            color: white !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.bg-muted {
+    background-color: $muted-bg;
+
+    @include darkmode {
+        background-color: $dark-muted-bg;
+    }
+}
+
+.bg-light {
+    background-color: $body-bg;
+}
+
+.bg-dark {
+    background-color: $dark-body-bg;
+}
