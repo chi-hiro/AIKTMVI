@@ -5,7 +5,7 @@ export const getCollection = async (dir: string) => {
     const SSdata = sessionStorage.getItem(`aiktmvi_${dir}`)
 
     if (SSdata) {
-        console.log(`[App]セッションストレージから${dir}を読み込みました`)
+        console.log(`[App]セッションから${dir}を読み込みました`)
         return JSON.parse(SSdata)
     } else {
         const data: Array<{ [key: string]: any }> = []

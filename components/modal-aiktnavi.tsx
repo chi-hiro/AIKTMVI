@@ -235,7 +235,7 @@ export const NaviModal = memo(forwardRef((_, ref) => {
 
                     <div className="modal-footer">
                         <button type="button" className="btn is-primary" onClick={() => modalRef.current?.hide()}>
-                        <span className="text">とじる</span>
+                            <span className="text">とじる</span>
                         </button>
                     </div>
                 </div>

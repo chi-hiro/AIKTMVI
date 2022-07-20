@@ -15,6 +15,8 @@ $card-spacer: math.div($card-height - $icon-size, 2);
     position: relative;
     z-index: 1;
     color: $headings-color;
+    background-color: #EAEAEA;
+    border-radius: 6px;
 
     @include hover-mouse {
         transition: transform 100ms ease-out;

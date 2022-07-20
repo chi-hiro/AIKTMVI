@@ -611,6 +611,12 @@ $header-height: $header-button-height + $header-spacer * 2;
         top: $header-height;
         bottom: calc(64px + env(safe-area-inset-bottom));
     }
+
+    .page-exit & {
+        transition: opacity 200ms linear;
+        will-change: opacity;
+        opacity: 0;
+    }
 }
 
 //***********************************************************************

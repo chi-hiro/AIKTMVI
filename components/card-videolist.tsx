@@ -117,55 +117,48 @@ export const Card = forwardRef((props: Props, ref) => {
     }))
 
     // Render
-    const renderList = () => {
-        return (
-            <div className="inner">
-                <button type="button" className="btn-play" onClick={addPlaylist}>
-                    <span className="icon"><Icon font="custom" value={icon} /></span>
-                    <span className="card-title" dangerouslySetInnerHTML={markupTitle(src?.title)}></span>
-                    <CSSTransition classNames="card-effect" in={isEffect} timeout={400} unmountOnExit>
-                        <span className="effect" style={{ left: `${effectPos[0]}px`, top: `${effectPos[1]}px` }}></span>
-                    </CSSTransition>
-                </button>
-
-                <button type="button" className="btn-end btn-navi" onClick={showNavi}>
-                    <span className="icon"><Icon font="custom" value="navi" /></span>
-                </button>
-            </div>
-        )
-    }
-
-    const renderGrid = () => {
-        return (
-            <div className="inner">
-                <button type="button" className="btn-play" onClick={addPlaylist}>
-                    <div className="overlay">
-                        <span className="icon"><Icon font="custom" value={icon} /></span>
-                    </div>
-                    <div className={`embed embed-16by9 ${!src?.landscape && !src?.portrait ? 'novideo' : ''}`}>
-                        <img src={`//i.ytimg.com/vi/${src?.landscape}/mqdefault.jpg`} alt="" />
-                    </div>
-                    <CSSTransition classNames="card-effect" in={isEffect} timeout={400} unmountOnExit>
-                        <span className="effect" style={{ left: `${effectPos[0]}px`, top: `${effectPos[1]}px` }}></span>
-                    </CSSTransition>
-                </button>
-
-                <div className="card-body">
-                    <span className="card-title" dangerouslySetInnerHTML={markupTitle(src?.title)}></span>
-
-                    <button type="button" className="btn-end btn-navi" onClick={showNavi}>
-                        <span className="icon"><Icon font="custom" value="navi" /></span>
-                    </button>
-                </div>
-            </div>
-        )
-    }
-
-    return (
-        <div ref={item} className={`card card-videolist card-${props.layout} ${typeClass(src?.type)} ${icon} ${isEffect ? 'effect' : ''}`}>
+    return src ? (
+        <div ref={item} className={`card card-videolist card-${props.layout} ${typeClass(src.type)} ${icon} ${isEffect ? 'effect' : ''}`}>
             <CSSTransition classNames="card" in={isShow} timeout={100} unmountOnExit>
-                {props.layout === 'grid' ? renderGrid() : renderList() }
+                {props.layout !== 'grid' ? (
+                    <div className="inner">
+                        <button type="button" className="btn-play" onClick={addPlaylist}>
+                            <span className="icon"><Icon font="custom" value={icon} /></span>
+                            <span className="card-title" dangerouslySetInnerHTML={markupTitle(src.title)}></span>
+                            <CSSTransition classNames="card-effect" in={isEffect} timeout={400} unmountOnExit>
+                                <span className="effect" style={{ left: `${effectPos[0]}px`, top: `${effectPos[1]}px` }}></span>
+                            </CSSTransition>
+                        </button>
+
+                        <button type="button" className="btn-end btn-navi" onClick={showNavi}>
+                            <span className="icon"><Icon font="custom" value="navi" /></span>
+                        </button>
+                    </div>
+                ) : (
+                    <div className="inner">
+                        <button type="button" className="btn-play" onClick={addPlaylist}>
+                            <div className="overlay">
+                                <span className="icon"><Icon font="custom" value={icon} /></span>
+                            </div>
+                            <div className={`embed embed-16by9 ${!src.landscape && !src.portrait ? 'novideo' : ''}`}>
+                                {src.landscape && <img src={`//i.ytimg.com/vi/${src.landscape}/mqdefault.jpg`} alt="" />}
+                            </div>
+                            <CSSTransition classNames="card-effect" in={isEffect} timeout={400} unmountOnExit>
+                                <span className="effect" style={{ left: `${effectPos[0]}px`, top: `${effectPos[1]}px` }}></span>
+                            </CSSTransition>
+                        </button>
+
+                        <div className="card-body">
+                            <span className="card-title" dangerouslySetInnerHTML={markupTitle(src.title)}></span>
+                            <button type="button" className="btn-end btn-navi" onClick={showNavi}>
+                                <span className="icon"><Icon font="custom" value="navi" /></span>
+                            </button>
+                        </div>
+                    </div>
+                )}
             </CSSTransition>
         </div>
+    ) : (
+        <span ref={item} className={`card card-videolist card-${props.layout}`} />
     )
 })
