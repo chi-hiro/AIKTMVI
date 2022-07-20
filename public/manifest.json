@@ -1,8 +1,23 @@
 {
-    "name": "AIKT!.MV∞",
-    "short_name": "AIKT!.MV∞",
+    "name": "AIKT.MV∞!",
+    "short_name": "AIKT.MV∞!",
     "description": "アイカツ！のミュージックビデオを無限に見るやつ",
     "display": "standalone",
     "scope": "/",
-    "start_url": "/"
+    "start_url": "/",
+    "lang": "ja",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF",
+    "icons": [
+        {
+          "src"           : "./img/favicon192.png",
+          "sizes"         : "192x192",
+          "type"          : "image/png"
+        },
+        {
+          "src"           : "./img/favicon512.png",
+          "sizes"         : "512x512",
+          "type"          : "image/png"
+        }
+    ]
 }

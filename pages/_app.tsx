@@ -60,11 +60,28 @@ export default function App({ Component, pageProps }: AppProps) {
                 <meta name="viewport" content={viewport} />
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="theme-color" content="#000000" />
-                <meta name="apple-mobile-web-app-title" content="AIKT!.MV∞" />
+                <meta name="apple-mobile-web-app-title" content="AIKT.MV∞!" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+                <meta property="og:title" content="AIKT!.MV∞" />
+                <meta property="og:site_name" content="AIKT!.MV∞" />
+                <meta property="og:description" content="アイカツ！のミュージックビデオを無限に見たくなったときに開くウェブアプリ" />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://aiktmvi.vercel.app" />
+                <meta property="og:image" content="https://aiktmvi.vercel.app/thumb.jpg" />
+
+                <meta name="twitter:site" content="@frostive" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="AIKT!.MV∞" />
+                <meta name="twitter:url" content="https://aiktmvi.vercel.app" />
+                <meta name="twitter:description" content="アイカツ！のミュージックビデオを無限に見たくなったときに開くウェブアプリ" />
+                <meta name="twitter:image" content="https://aiktmvi.vercel.app/thumb.jpg" />
+
+                <link rel="icon" href="/img/favicon192.png" type="image/png" sizes="192x192" />
+                <link rel="apple-touch-icon" href="/img/favicon180.png" />
                 <link rel="manifest" href="/manifest.json" />
-                <title>AIKT!.MV∞</title>
+                <title>AIKT.MV∞!</title>
             </Head>
 
             <Launcher setLoad={() => setLoad(true)} />

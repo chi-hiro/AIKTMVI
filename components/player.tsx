@@ -383,14 +383,14 @@ const Player = () => {
                 <div className="screen">
                     <CSSTransition classNames="screen" in={player.status === 'stop'} timeout={800} unmountOnExit>
                         <div className="title">
-                            <img src="/img/logo-white.png" alt="AIKT!.MV∞" />
+                            <img src="/img/logo-white.png" alt="AIKT.MV∞!" />
                             <span className="version">Ver.{process.env.NEXT_PUBLIC_VERSION}</span>
                         </div>
                     </CSSTransition>
 
                     <CSSTransition classNames="screen" in={eyecatch} timeout={400} unmountOnExit>
                         <div className="eyecatch">
-                            <img src="/img/logo-dark.png" alt="AIKT!.MV∞" />
+                            <img src="/img/logo-dark.png" alt="AIKT.MV∞!" />
                         </div>
                     </CSSTransition>
 

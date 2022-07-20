@@ -145,13 +145,9 @@ $barH: 56px;
         img {
             position: relative;
             z-index: 10;
-            width: 70%;
-            max-width: 400px;
-            height: auto;
-
-            @include breakpoint-up {
-                width: 50%;
-            }
+            max-width: 50%;
+            height: 40px;
+            object-fit: contain;
         }
 
         .version {

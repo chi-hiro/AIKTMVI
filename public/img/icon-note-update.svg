@@ -1,7 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>icon-note-update</title>
-    <g id="icon-note-update" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <polygon id="Path-2" fill="#FFFFFF" points="6 15.0967742 10.0322581 11.2258065 12.0483871 12.4354839 13.7764977 10.6612903 10.8387097 8 18.0967742 8 18.0967742 15.0967742 15.5046083 12.4354839 12.0483871 16.0645161 10.3202765 15.0967742 8.5921659 16.8709677"></polygon>
-    </g>
-</svg>
+<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m6 15.0967742 4.0322581-3.8709677 2.016129 1.2096774 1.7281106-1.7741936-2.937788-2.6612903h7.2580645v7.0967742l-2.5921659-2.6612903-3.4562212 3.6290322-1.7281106-.9677419-1.7281106 1.7741935z" fill="#fff" fill-rule="evenodd"/></svg>

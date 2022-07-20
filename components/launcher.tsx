@@ -131,7 +131,7 @@ const launcher = (props: Props) => {
     const tutorialMessage = useMemo(() => {
         switch (page) {
             case 1:
-                return 'AIKT!.MV∞とは'
+                return 'AIKT.MV∞!とは'
             case 2:
                 return 'つかいかた'
             case 3:
@@ -200,7 +200,7 @@ const launcher = (props: Props) => {
                         <div id="launcher-tutorial-page">
                             <CSSTransition classNames="tutorial-page" in={page === 1} timeout={300} unmountOnExit>
                                 <div className="inner text-center">
-                                    <p>「AIKT!.MV∞」は<br />アイカツ！シリーズのミュージックビデオを<br />無限に見たい人のために作られた<br />非公式のウェブアプリです。</p>
+                                    <p>「AIKT.MV∞!」は<br />アイカツ！シリーズのミュージックビデオを<br />無限に見たい人のために作られた<br />非公式のウェブアプリです。</p>
                                     <p>公式YouTubeチャンネルで配信されている<br />動画のみをまとめて連続視聴に特化した<br />スペシャルにおいしいアプリです。</p>
                                 </div>
                             </CSSTransition>
@@ -227,7 +227,7 @@ const launcher = (props: Props) => {
 
                             <CSSTransition classNames="tutorial-page" in={page === 4} timeout={300} unmountOnExit>
                                 <div className="inner">
-                                    <p className="mb-0.5">「AIKT!.MV∞」はアプリ設定、ビデオ音量、プレイリスト内容をブラウザに保存します。</p>
+                                    <p className="mb-0.5">「AIKT.MV∞!」はアプリ設定、ビデオ音量、プレイリスト内容をブラウザに保存します。</p>
                                     <p><small className="block text-muted">保存する設定での使用を推奨しています。<br />オフにしても、バージョン管理のため一部データは保存されます。</small></p>
 
                                     <div className="border p-1 mt-1.5 rounded">
