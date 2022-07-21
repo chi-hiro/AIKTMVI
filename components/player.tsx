@@ -384,7 +384,7 @@ const Player = () => {
                     <CSSTransition classNames="screen" in={player.status === 'stop'} timeout={800} unmountOnExit>
                         <div className="title">
                             <img src="/img/logo-white.png" alt="AIKT.MV∞!" />
-                            <span className="version">Ver.{process.env.NEXT_PUBLIC_VERSION}</span>
+                            <span className="version">Ver.{process.env.NEXT_PUBLIC_VERSION} Beta</span>
                         </div>
                     </CSSTransition>
 
