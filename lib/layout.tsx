@@ -11,14 +11,13 @@ export const layout = () => {
     elm.classList.remove(...elm.classList)
 
     // isMobileLayout
-    let isMobile: boolean = mobile ? true : false
+    let layout: string = mobile ? 'mobile' : 'desktop'
 
     if (!mobile && window.innerHeight < window.innerWidth / 16 * 9) {
-        isMobile = true
+        layout = 'desktop-sm'
     }
 
     // Set
-    const layout = isMobile ? 'mobile' : 'desktop'
     elm.classList.add(layout)
     elm.classList.add(orientation)
     elm.classList.add(device)

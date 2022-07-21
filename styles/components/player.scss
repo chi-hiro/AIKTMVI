@@ -11,7 +11,8 @@ $barH: 56px;
     justify-content: space-between;
     @include transition((flex, height));
 
-    body.mobile.landscape & {
+    body.mobile.landscape &,
+    body.desktop-sm.landscape & {
         height: 100vh;
     }
 
@@ -25,7 +26,8 @@ $barH: 56px;
         }
     }
 
-    body.desktop main.fullscreen & {
+    body.desktop main.fullscreen &,
+    body.desktop-sm main.fullscreen & {
         height: 100vh;
 
         #player-screen,
@@ -67,11 +69,13 @@ $barH: 56px;
         max-height: 100%;
         margin: auto;
 
-        body.mobile.landscape & {
+        body.mobile.landscape &,
+        body.desktop-sm.landscape & {
             height: 100%;
         }
 
-        body.desktop main.fullscreen & {
+        body.desktop main.fullscreen &,
+        body.desktop-sm main.fullscreen & {
             cursor: pointer;
             margin-bottom: auto;
             width: 100%;
@@ -178,8 +182,9 @@ $barH: 56px;
         img {
             position: relative;
             z-index: 10;
-            width: 50%;
-            height: auto;
+            max-width: 50%;
+            height: 40px;
+            object-fit: contain;
         }
     }
 
@@ -204,7 +209,8 @@ $barH: 56px;
         }
 
         body.mobile.landscape &,
-        body.desktop main.fullscreen & {
+        body.desktop main.fullscreen &,
+        body.desktop-sm main.fullscreen & {
             padding: 40px 40px spacer(6);
         }
 
@@ -421,7 +427,8 @@ $barH: 56px;
     }
 
     body.mobile.landscape &,
-    body.desktop main.fullscreen & {
+    body.desktop main.fullscreen &,
+    body.desktop-sm main.fullscreen & {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -438,7 +445,8 @@ $barH: 56px;
 .controller-exit-active,
 .controller-exit-done {
     body.mobile.landscape &,
-    body.desktop main.fullscreen & {
+    body.desktop main.fullscreen &,
+    body.desktop-sm main.fullscreen & {
         transform: translateY(100%);
     }
 }

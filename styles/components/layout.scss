@@ -5,7 +5,8 @@
 //  Layout
 //***********************************************************************
 body {
-    &.mobile.landscape {
+    &.mobile.landscape,
+    &.desktop-sm.landscape {
         background-color: #000000;
     }
 }
@@ -42,8 +43,15 @@ main {
         padding: 10px;
     }
 
+    body.desktop-sm & {
+        height: 100%;
+        padding: 0;
+        margin-right: 390px;
+    }
+
     &.fullscreen {
-        body.desktop & {
+        body.desktop &,
+        body.desktop-sm & {
             padding: 0;
             margin-right: 0;
         }

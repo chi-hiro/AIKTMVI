@@ -46,7 +46,8 @@ $header-height: $header-button-height + $header-spacer * 2;
         will-change: transform;
     }
 
-    body.desktop & {
+    body.desktop &,
+    body.desktop-sm & {
         width: 390px;
 
         &::after {
@@ -179,7 +180,8 @@ $header-height: $header-button-height + $header-spacer * 2;
     }
 
     body.mobile.portrait &,
-    body.desktop & {
+    body.desktop &,
+    body.desktop-sm & {
         display: none;
     }
 }

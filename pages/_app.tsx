@@ -37,10 +37,6 @@ export default function App({ Component, pageProps }: AppProps) {
         }
     }
 
-    const showApp = () => {
-        setLoad(true)
-    }
-
     // Hooks
     useEffect(() => {
         polyfill()
