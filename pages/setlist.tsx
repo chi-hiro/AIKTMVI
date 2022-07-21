@@ -93,9 +93,7 @@ export default function Setlist() {
 
             // 画面に反映 (show)
             showItems('show', true)
-            scrollerRef.current?.enableScroll
-                ? scrollerRef.current?.setScroller()
-                : scrollerRef.current?.setEnableScroll(true)
+            scrollerRef.current?.init()
 
             // ソート用クローンを構築
             const cloneList: ItemInterface[] = []

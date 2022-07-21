@@ -156,9 +156,7 @@ export default function Home() {
 
             // 画面に反映 (show)
             showItems('show', true)
-            scrollerRef.current?.enableScroll
-                ? scrollerRef.current?.setScroller()
-                : scrollerRef.current?.setEnableScroll(true)
+            scrollerRef.current?.init()
         }
     }, [videolist, layout])
 

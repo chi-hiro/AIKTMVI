@@ -3,6 +3,7 @@ import { CSSTransition } from 'react-transition-group'
 import Icon from 'components/icon'
 
 export type ScrollerRefTypes = {
+    init: () => void,
     setScroller: () => void,
     enableScroll: boolean,
     setEnableScroll: React.Dispatch<React.SetStateAction<boolean>>
@@ -104,6 +105,12 @@ export const Scroller = forwardRef((props: Props, ref) => {
         }
     }
 
+    const init = () => {
+        enableScroll
+            ? setScroller()
+            : setEnableScroll(true)
+    }
+
     // Hooks
     useEffect(() => {
         setIsTransition(true)
@@ -114,7 +121,8 @@ export const Scroller = forwardRef((props: Props, ref) => {
     useImperativeHandle(ref, () => ({
         setScroller,
         enableScroll,
-        setEnableScroll
+        setEnableScroll,
+        init
     }))
 
     // Render

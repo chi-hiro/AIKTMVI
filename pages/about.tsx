@@ -24,9 +24,7 @@ export default function About() {
 
     // Hooks
     useEffect(() => {
-        scrollerRef.current?.enableScroll
-            ? scrollerRef.current?.setScroller()
-            : scrollerRef.current?.setEnableScroll(true)
+        scrollerRef.current?.init()
     }, [])
 
     // Render

@@ -7,27 +7,12 @@ import { getCollection } from '@/lib/firestore'
 import { toast } from 'lib/toast'
 import { Scroller, ScrollerRefTypes } from 'components/scroller'
 
-
 export default function Menu() {
-    // Router
-    const router = useRouter()
-
-    // Store
     const dispatch = useDispatch()
-
-    // Ref
     const scrollerRef = useRef<ScrollerRefTypes>()
-
-    // State
     const [src, setSrc] = useState<Array<{ [key: string]: any }>>([])
 
     // Methods
-    const routing = (href: string) => {
-        const name = href.replace(/\//g, '')
-        dispatch(RouteSlice.actions.set({ path: router.asPath, name }))
-        window.setTimeout(() => router.push(href), 200)
-    }
-
     const updatenoteLabel = (category: string) => {
         switch (category) {
             case 'primary':
@@ -51,10 +36,7 @@ export default function Menu() {
     useEffect(() => {
         if (src) {
             dispatch(LoaderSlice.actions.hide())
-
-            scrollerRef.current?.enableScroll
-                ? scrollerRef.current?.setScroller()
-                : scrollerRef.current?.setEnableScroll(true)
+            scrollerRef.current?.init()
         }
     }, [src])
 
@@ -69,41 +51,10 @@ export default function Menu() {
 
             <Scroller ref={scrollerRef} theme="tertiary" wrapperClass="sidebar-body sidebar-body-menu">
                 <div className="grid grid-cols-3 gap-2 menu-container">
-                    <button type="button" className="menu-item" onClick={() => routing('/releasenote')}>
-                        <span className="icon">
-                            <img src="/img/menuicon-releasenote.png" alt="" />
-                        </span>
-                        <span className="text">
-                            リリースノート
-                        </span>
-                    </button>
-
-                    <button type="button" className="menu-item" onClick={() => routing('/option')}>
-                        <span className="icon">
-                            <img src="/img/menuicon-settings.png" alt="" />
-                        </span>
-                        <span className="text">
-                            アプリ設定
-                        </span>
-                    </button>
-
-                    <button type="button" className="menu-item" onClick={() => routing('/report')}>
-                        <span className="icon">
-                            <img src="/img/menuicon-feedback.png" alt="" />
-                        </span>
-                        <span className="text">
-                            要望・不具合報告
-                        </span>
-                    </button>
-
-                    <button type="button" className="menu-item" onClick={() => routing('/about')}>
-                        <span className="icon">
-                            <img src="/img/menuicon-manual.png" alt="" />
-                        </span>
-                        <span className="text">
-                            アプリについて
-                        </span>
-                    </button>
+                    <MenuItem label="リリースノート" icon="releasenote" link="/releasenote" />
+                    <MenuItem label="アプリ設定" icon="settings" link="/option" />
+                    <MenuItem label="要望・不具合報告" icon="feedback" link="/report" />
+                    <MenuItem label="アプリについて" icon="manual" link="/about" />
                 </div>
 
                 <CSSTransition classNames="updatenote" in={src.length > 0} timeout={0} unmountOnExit>
@@ -123,5 +74,33 @@ export default function Menu() {
                 </CSSTransition>
             </Scroller>
         </>
+    )
+}
+
+type menuItemProps = {
+    label: string,
+    icon: string,
+    link: string
+}
+
+const MenuItem = (props: menuItemProps) => {
+    const router = useRouter()
+    const dispatch = useDispatch()
+
+    const routing = (href: string) => {
+        const name = href.replace(/\//g, '')
+        dispatch(RouteSlice.actions.set({ path: router.asPath, name }))
+        window.setTimeout(() => router.push(href), 200)
+    }
+
+    return (
+        <button type="button" className="menu-item" onClick={() => routing(props.link)}>
+            <span className="icon">
+                <img src={`/img/menuicon-${props.icon}.png`} alt="" />
+            </span>
+            <span className="text">
+                {props.label}
+            </span>
+        </button>
     )
 }

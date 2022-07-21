@@ -40,10 +40,7 @@ export default function ReleaseNote() {
     useEffect(() => {
         if (src) {
             dispatch(LoaderSlice.actions.hide())
-
-            scrollerRef.current?.enableScroll
-                ? scrollerRef.current?.setScroller()
-                : scrollerRef.current?.setEnableScroll(true)
+            scrollerRef.current?.init()
         }
     }, [src])
 
