@@ -71,10 +71,6 @@
                 .icon {
                     color: darken($color, 15%);
                 }
-
-                &.hover-border::after {
-                    border-color: darken($color, 15%);
-                }
             }
         }
     }

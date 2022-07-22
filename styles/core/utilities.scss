@@ -137,51 +137,6 @@ $embed-ratio: (1 1), (16 9), (21, 9), (4 3), (3 1), (2 1);
 }
 
 //***********************************************************************
-//  Hover
-//***********************************************************************
-.hover-border {
-    display: block;
-    position: relative;
-
-    &::after {
-        content: '';
-        pointer-events: none;
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        border: $border-width solid $link-color;
-        opacity: 0;
-        transition: opacity $duration linear;
-    }
-
-    @include focus-mouse {
-        &::after {
-            opacity: 1;
-        }
-    }
-}
-
-.hover-zoom {
-    transition: transform 800ms $easeOutQuint;
-
-    @include focus-mouse {
-        transform: scale(1.03);
-    }
-}
-
-.hover-opacity {
-    display: block;
-    transition: opacity $duration linear;
-
-    @include focus-mouse {
-        opacity: 0.85;
-    }
-}
-
-//***********************************************************************
 //  Generate Utilities
 //***********************************************************************
 $utilities: () !default;
