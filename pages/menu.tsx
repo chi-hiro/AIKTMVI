@@ -1,4 +1,5 @@
 import { memo, useRef, useMemo, useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteSlice, LoaderSlice, DatabaseTypes } from 'store'
@@ -111,7 +112,7 @@ const MenuItem = memo((props: menuItemProps) => {
     return (
         <button type="button" className="menu-item" onClick={() => routing(props.link)}>
             <span className="icon">
-                <img src={`/img/menuicon-${props.icon}.png`} alt="" />
+                <Image src={`/img/menuicon-${props.icon}.png`} width={76} height={76} />
             </span>
             <span className="text">
                 {props.label}

@@ -259,14 +259,14 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        height: 210px;
+        height: 218px;
 
         @include breakpoint-up {
-            height: 262px;
+            height: 250px;
         }
 
-        img {
-            position: absolute;
+        > * {
+            position: absolute !important;
             top: 0;
             left: 0;
             right: 0;
@@ -315,7 +315,7 @@
         span {
             display: block;
             position: absolute;
-            top: 12px;
+            top: 14px;
             left: 24px;
             right: 0;
             color: white;
