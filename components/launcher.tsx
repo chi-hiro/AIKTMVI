@@ -1,5 +1,4 @@
 import { memo, useState, useEffect, useMemo } from 'react'
-import Image from 'next/image'
 import { CSSTransition } from 'react-transition-group'
 import { useDispatch, useSelector } from 'react-redux'
 import { LayoutSlice, DatabaseSlice, SettingTypes, SettingSlice, PlayerSlice, VideolistSlice, PlaylistSlice } from 'store'
@@ -188,8 +187,8 @@ const launcher = (props: Props) => {
 
                             <span className="stage stage1"></span>
                             <span className="stage stage2"></span>
-                            <img src="/img/launcher-stage-layer1.png" alt="" className="stage-bg-top" />
-                            <img src="/img/launcher-stage-layer2.png" alt="" className="stage-bg-bottom" />
+                            <img src="/img/launcher-stage-layer1.png" width="360" height="110" alt="" className="stage-bg-top" />
+                            <img src="/img/launcher-stage-layer2.png" width="360" height="110" alt="" className="stage-bg-bottom" />
                         </div>
 
                         <div id="launcher-connect-message">
@@ -215,7 +214,7 @@ const launcher = (props: Props) => {
 
                             <CSSTransition classNames="tutorial-page" in={page === 2} timeout={300} unmountOnExit>
                                 <div className="inner text-center">
-                                    <Image src="/img/howto-use.jpg" width={400} height={150} />
+                                    <img src="/img/howto-use.webp" width={400} height={150} alt="" />
                                     <p className="mb-0">楽曲リストから見たい動画をえらんでね！<br />ボタンを押すと再生がはじまるよ！</p>
                                     <small>消音モードでも音が出るから注意してね</small>
                                 </div>
@@ -225,8 +224,8 @@ const launcher = (props: Props) => {
                                 <div className="inner text-center">
                                     <p>ブラウザからホーム画面に追加すれば<br />アプリみたいに使えるよ！</p>
                                     <div className="tutorial-slide">
-                                        <Image src="/img/howto-pwa-ios.jpg" width={400} height={250} />
-                                        <Image src="/img/howto-pwa-android.jpg" width={400} height={250} />
+                                        <img src="/img/howto-pwa-ios.webp" width={400} height={250} alt="" />
+                                        <img src="/img/howto-pwa-android.webp" width={400} height={250} alt="" />
                                     </div>
                                 </div>
                             </CSSTransition>
@@ -250,7 +249,7 @@ const launcher = (props: Props) => {
                         <CSSTransition classNames="tutorial-footer" in={tutorialFooter} timeout={300}>
                             <div id="launcher-tutorial-footer">
                                 <span className="chara">
-                                    <Image src="/img/howto-yurichan.png" width={84} height={117} />
+                                    <img src="/img/howto-yurichan.png" width={84} height={117} alt="" />
                                 </span>
 
                                 <div className="message">

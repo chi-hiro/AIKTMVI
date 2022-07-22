@@ -62,14 +62,14 @@ export default function App({ Component, pageProps }: AppProps) {
                 <meta property="og:description" content="アイカツ！のミュージックビデオを無限に見たくなったときに開くウェブアプリ" />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://aiktmvi.vercel.app" />
-                <meta property="og:image" content="https://aiktmvi.vercel.app/thumb.jpg" />
+                <meta property="og:image" content="https://aiktmvi.vercel.app/thumb.webp" />
 
                 <meta name="twitter:site" content="@frostive" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="AIKT!.MV∞" />
                 <meta name="twitter:url" content="https://aiktmvi.vercel.app" />
                 <meta name="twitter:description" content="アイカツ！のミュージックビデオを無限に見たくなったときに開くウェブアプリ" />
-                <meta name="twitter:image" content="https://aiktmvi.vercel.app/thumb.jpg" />
+                <meta name="twitter:image" content="https://aiktmvi.vercel.app/thumb.webp" />
 
                 <link rel="icon" href="/img/favicon192.png" type="image/png" sizes="192x192" />
                 <link rel="apple-touch-icon" href="/img/favicon180.png" />
