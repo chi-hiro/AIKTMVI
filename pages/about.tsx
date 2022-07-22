@@ -63,8 +63,8 @@ export default function About() {
                         <div className="inner grid gap-0.5">
                             <p>スマートフォンやタブレットをお使いの方は、ブラウザのメニューから「<mark>ホーム画面に追加</mark>」することで、ウェブアプリモードをご利用いただけます。</p>
                             <p>アプリのように全画面で動作するモードで、この使い方を強く推奨しています。</p>
-                            <figure><img src="/img/howto-pwa-ios.jpg" alt="" className="img-fluid" /></figure>
-                            <figure><img src="/img/howto-pwa-android.jpg" alt="" className="img-fluid" /></figure>
+                            <figure><img src="/img/howto-pwa-ios.webp" alt="" className="img-fluid" /></figure>
+                            <figure><img src="/img/howto-pwa-android.webp" alt="" className="img-fluid" /></figure>
                         </div>
                     </div>
 

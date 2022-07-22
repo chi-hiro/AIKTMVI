@@ -110,6 +110,10 @@ $header-height: $header-button-height + $header-spacer * 2;
 .sidebar-exit-active,
 .sidebar-exit-done {
     transform: translateX(390px);
+
+    &::after {
+        opacity: 0;
+    }
 }
 
 .sidebar-enter-active {

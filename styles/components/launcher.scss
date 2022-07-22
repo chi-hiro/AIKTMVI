@@ -138,10 +138,8 @@
         &.chara1 { left: 0; z-index: 2; }
         &.chara2 { left: 36px; z-index: 1; }
 
-        &.yume { background-image: url(/img/chara-yume.png); }
-        &.rola { background-image: url(/img/chara-rola.png); }
-        &.aine { background-image: url(/img/chara-aine.png); }
-        &.mio  { background-image: url(/img/chara-mio.png); }
+        &.aine { background-image: url(/img/chara-aine.webp); }
+        &.mio  { background-image: url(/img/chara-mio.webp); }
     }
 
     &.jump {

@@ -215,7 +215,7 @@ const launcher = (props: Props) => {
                             <CSSTransition classNames="tutorial-page" in={page === 2} timeout={300} unmountOnExit>
                                 <div className="inner text-center">
                                     <figure>
-                                        <img src="/img/howto-use.jpg" alt="" />
+                                        <img src="/img/howto-use.webp" alt="" />
                                     </figure>
                                     <p className="mb-0">楽曲リストから見たい動画をえらんでね！<br />ボタンを押すと再生がはじまるよ！</p>
                                     <small>消音モードでも音が出るから注意してね</small>
@@ -226,8 +226,8 @@ const launcher = (props: Props) => {
                                 <div className="inner text-center">
                                     <p>ブラウザからホーム画面に追加すれば<br />アプリみたいに使えるよ！</p>
                                     <figure className="tutorial-slide">
-                                        <img src="/img/howto-pwa-ios.jpg" alt="" />
-                                        <img src="/img/howto-pwa-android.jpg" alt="" />
+                                        <img src="/img/howto-pwa-ios.webp" alt="" />
+                                        <img src="/img/howto-pwa-android.webp" alt="" />
                                     </figure>
                                 </div>
                             </CSSTransition>
