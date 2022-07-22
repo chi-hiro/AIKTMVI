@@ -112,7 +112,7 @@ $header-height: $header-button-height + $header-spacer * 2;
     transform: translateX(390px);
 
     &::after {
-        opacity: 0;
+        display: none;
     }
 }
 
