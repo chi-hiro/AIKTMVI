@@ -58,6 +58,12 @@ const launcher = (props: Props) => {
     const getDatabase = async (db: string) => {
         const res = await getCollection(db)
 
+        // DBが更新されている場合はセッションストレージをクリアする
+        if (db === 'notification') {
+            const timestamp = localStorage.getItem('aiktmvi_timestamp')
+            if (timestamp && Number(new Date(res[0].date)) > Number(timestamp)) sessionStorage.clear()
+        }
+
         switch (db) {
             case 'video':
                 dispatch(DatabaseSlice.actions.set({ key: 'master', value: res }))
@@ -80,6 +86,7 @@ const launcher = (props: Props) => {
         getStorage('sidebar')
 
         // Firebaseにアクセス
+        await getDatabase('notification')
         await getDatabase('video')
         await getDatabase('vocal')
         await getDatabase('chara')

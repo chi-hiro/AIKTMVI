@@ -1,44 +1,57 @@
-import { useRef, useEffect, useState } from 'react'
+import { memo, useRef, useMemo, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import { RouteSlice, LoaderSlice } from 'store'
+import { useDispatch, useSelector } from 'react-redux'
+import { RouteSlice, LoaderSlice, DatabaseTypes } from 'store'
 import { CSSTransition } from 'react-transition-group'
-import { getCollection } from '@/lib/firestore'
-import { toast } from 'lib/toast'
 import { Scroller, ScrollerRefTypes } from 'components/scroller'
+
+const updateLabel: { [key: string]: string } = {
+    primary: 'アプリアップデート',
+    secondary: '楽曲追加',
+    tertiary: '楽曲ナビ更新'
+}
 
 export default function Menu() {
     const dispatch = useDispatch()
+    const db = useSelector((state: { database: DatabaseTypes }) => state.database)
     const scrollerRef = useRef<ScrollerRefTypes>()
-    const [src, setSrc] = useState<Array<{ [key: string]: any }>>([])
+    const [showNotif, setShowNotif] = useState<boolean>(false)
 
-    // Methods
-    const updatenoteLabel = (category: string) => {
-        switch (category) {
-            case 'primary':
-                return 'アプリアップデート'
-            case 'secondary':
-                return '楽曲追加'
-            case 'tertiary':
-                return '楽曲ナビ更新'
+    // Recent update
+    const filteringRecentItem = (category: string) => {
+        return db.notification.filter(item => item.category === category && true)[0]
+    }
+
+    const recentUpdate = useMemo(() => {
+        if (db.notification.length) {
+            const newData: Array<{ [key: string]: string }> = []
+            newData.push(filteringRecentItem('primary'))
+            newData.push(filteringRecentItem('secondary'))
+            newData.push(filteringRecentItem('tertiary'))
+            newData.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)))
+            return newData
         }
+    }, [db.notification])
+
+    const updateDate = (value: string) => {
+        const d = new Date(value)
+        const day = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('.')
+        const time = [d.getHours() > 9 ? d.getHours() : '0' + d.getHours(), d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes()].join(':')
+        return `${day} ${time}`
     }
 
     // Hooks
     useEffect(() => {
         dispatch(LoaderSlice.actions.show())
-
-        getCollection('notification')
-            .then(response => setSrc(response))
-            .catch(error => toast('danger', 'データを読み込めませんでした...'))
     }, [])
 
     useEffect(() => {
-        if (src) {
+        if (db.notification.length) {
             dispatch(LoaderSlice.actions.hide())
             scrollerRef.current?.init()
+            setShowNotif(true)
         }
-    }, [src])
+    }, [db.notification])
 
     // Render
     return (
@@ -57,15 +70,15 @@ export default function Menu() {
                     <MenuItem label="アプリについて" icon="manual" link="/about" />
                 </div>
 
-                <CSSTransition classNames="updatenote" in={src.length > 0} timeout={0} unmountOnExit>
+                <CSSTransition classNames="updatenote" in={showNotif} timeout={0} unmountOnExit>
                     <div className="updatenote">
                         <h2 className="updatenote-title">最近の更新</h2>
 
-                        {src.map((item, index) => (
+                        {recentUpdate && recentUpdate.map((item, index) => (
                             <div className="updatenote-item" key={`updatenote${index}`}>
                                 <div className="flex justify-between items-center">
-                                    <span className={`label is-${item.category}`}>{updatenoteLabel(item.category)}</span>
-                                    <span className="date">2022.4.27 14:29</span>
+                                    <span className={`label is-${item.category}`}>{updateLabel[item.category]}</span>
+                                    <span className="date">{updateDate(item.date)}</span>
                                 </div>
                                 <div className="body">{item.title}</div>
                             </div>
@@ -83,7 +96,7 @@ type menuItemProps = {
     link: string
 }
 
-const MenuItem = (props: menuItemProps) => {
+const MenuItem = memo((props: menuItemProps) => {
     const router = useRouter()
     const dispatch = useDispatch()
 
@@ -103,4 +116,4 @@ const MenuItem = (props: menuItemProps) => {
             </span>
         </button>
     )
-}
+})

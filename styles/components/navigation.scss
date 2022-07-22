@@ -100,6 +100,20 @@ $navigation-height: 56px;
         left: 8px;
     }
 
+    .update-badge {
+        position: absolute;
+        top: -6px;
+        right: -2px;
+
+        display: block;
+        width: 18px;
+        height: 18px;
+        background-color: $brand-danger;
+        border-radius: 999px;
+        border: 2px solid $border-color;
+        animation: update_badge_effect 1s linear infinite;
+    }
+
     .btn-navigation-parent {
         @include transition(width);
     }
@@ -173,6 +187,11 @@ $navigation-height: 56px;
         //    width: 182px;
         //}
     }
+}
+
+@keyframes update_badge_effect {
+    50% { background-color: lighten($brand-danger, 20%); }
+    100% { background-color: $brand-danger; }
 }
 
 @keyframes navigation_update_effect {

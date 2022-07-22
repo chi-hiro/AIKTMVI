@@ -1,7 +1,7 @@
-import { memo } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { RouteTypes, RouteSlice, ListTypes } from 'store'
+import { RouteTypes, RouteSlice, DatabaseTypes, ListTypes } from 'store'
 import { CSSTransition } from 'react-transition-group'
 import Icon from 'components/icon'
 
@@ -30,15 +30,30 @@ const BottomNavigation = (props: Props) => {
     // Store
     const dispatch = useDispatch()
     const route = useSelector((state: { route: RouteTypes}) => state.route)
+    const db = useSelector((state: { database: DatabaseTypes }) => state.database)
     const videolist = useSelector((state: { videolist: ListTypes }) => state.videolist.data)
     const playlist = useSelector((state: { playlist: ListTypes }) => state.playlist.data)
+
+    // State
+    const [showNotif, setShowNotif] = useState<boolean>(false)
 
     // Methods
     const routing = (href: string) => {
         const name = href === '/' ? 'videolist' : href.replace(/\//g, '')
         dispatch(RouteSlice.actions.set({ path: router.asPath, name }))
         window.setTimeout(() => router.push(href), 200)
+        href === '/menu' && setShowNotif(false)
     }
+
+    // Hooks
+    useEffect(() => {
+        const timestamp = localStorage.getItem('aiktmvi_timestamp')
+        const lastupdate = Number(new Date(db.notification[0].date))
+        if (timestamp && lastupdate > Number(timestamp)) {
+            setShowNotif(true)
+            localStorage.setItem('aiktmvi_timestamp', String(lastupdate))
+        }
+    }, [])
 
     // Render
     return (
@@ -74,6 +89,7 @@ const BottomNavigation = (props: Props) => {
             <div className={`navigation-item menu ${route.name.match(/menu/) ? 'active' : ''}`}>
                 <button type="button" className="btn-navigation-parent" onClick={() => routing('/menu')}>
                     <Button icon="apps" text="メニュー" />
+                    {showNotif && <span className="update-badge" />}
                 </button>
             </div>
         </div>

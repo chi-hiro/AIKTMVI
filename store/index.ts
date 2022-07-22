@@ -32,6 +32,7 @@ const initialDatabase: DatabaseTypes = {
     master: [],
     vocal: [],
     chara: [],
+    notification: []
 }
 
 export const DatabaseSlice = createSlice({

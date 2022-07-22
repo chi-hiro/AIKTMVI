@@ -2,7 +2,7 @@ import { db } from 'lib/firebase'
 import { collection, getDocs } from 'firebase/firestore'
 
 export const getCollection = async (dir: string) => {
-    const SSdata = sessionStorage.getItem(`aiktmvi_${dir}`)
+    const SSdata = dir !== 'notification' ? sessionStorage.getItem(`aiktmvi_${dir}`) : null
 
     if (SSdata) {
         console.log(`[App]セッションから${dir}を読み込みました`)
