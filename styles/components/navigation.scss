@@ -44,7 +44,7 @@ $navigation-height: 56px;
     right: 0;
     bottom: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-end;
     gap: 2px;
     padding: 0 4px calc(4px + env(safe-area-inset-bottom)) 4px;

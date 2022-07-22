@@ -1,56 +1,115 @@
 @use 'sass:math';
 @use '/styles/core/core' as *;
 
-#toast {
+.notification {
+    pointer-events: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+    @include rounded;
+
+    margin: 0 auto spacer(0.5);
+    width: 100%;
+    border: none;
+    box-shadow: $box-shadow-dark;
+    transform: translateY(-110%);
+    opacity: 0;
+
+    .notification-body {
+        flex: 1 1 auto;
+        position: relative;
+        padding: spacer(1);
+
+        .body {
+            font-weight: bold;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+    }
+
+    @include breakpoint-up {
+        width: 600px;
+    }
+
+    .notification-container.left & {
+        transform: translateX(-100%);
+    }
+
+    .notification-container.right & {
+        transform: translateX(100%);
+    }
+
+    .notification-container.center & {
+        transform: scale(0.5);
+    }
+
+    &.notification-enter,
+    &.notification-exit {
+        @include transition((transform, opacity));
+        will-change: transform, opacity;
+    }
+
+    &.notification-enter-active,
+    &.notification-enter-done {
+        transform: none !important;
+        opacity: 1;
+    }
+
+    @each $key, $color in $themes {
+        @if $key != white {
+            &.bg-#{"" + $key} {
+                h2, h3, h4, h5, h6 {
+                    color: white;
+                }
+
+                small {
+                    color: rgba(255,255,255,0.7);
+                }
+
+                .icon {
+                    color: darken($color, 15%);
+                }
+
+                &.hover-border::after {
+                    border-color: darken($color, 15%);
+                }
+            }
+        }
+    }
+}
+
+.notification-container {
     position: fixed;
     z-index: $zindex-modal;
     top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
     pointer-events: none;
 
-    @include breakpoint-up {
-        top: spacer(1);
-    }
-}
-
-.notification {
-    width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: spacer(1);
-    box-shadow: $box-shadow-dark;
+    flex-direction: column;
+    padding: spacer(0.5);
 
     @include breakpoint-up {
-        width: 600px;
-        border-radius: 12px;
-        margin: 0 auto;
+        padding: spacer(1);
     }
 
-    .icon {
-        flex: 0 0 auto;
-        margin-right: spacer(0.75);
-        color: white;
-    }
-
-    .body {
-        flex: 1 1 auto;
-        position: relative;
-        font-size: 0.875rem;
-        line-height: 1.5;
-
-        @include breakpoint-up {
-            font-size: 1rem;
+    &.left {
+        .card-notification {
+            margin-left: 0;
         }
     }
 
-    transform: translateY(-120%);
-    opacity: 0;
-    @include transition((transform, opacity));
+    &.right {
+        .card-notification {
+            margin-right: 0;
+        }
+    }
 
-    &.active {
-        transform: none;
-        opacity: 1;
+    &.center {
+        justify-content: center;
     }
 }

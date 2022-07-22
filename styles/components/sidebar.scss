@@ -15,7 +15,6 @@ $header-height: $header-button-height + $header-spacer * 2;
     bottom: 0;
     right: 0;
     background-color: #F3F3F3;
-    @include transition(transform);
 
     &::before {
         content: '';
@@ -53,6 +52,10 @@ $header-height: $header-button-height + $header-spacer * 2;
         &::after {
             opacity: 1;
         }
+    }
+
+    body.mobile & {
+        @include transition(transform);
     }
 
     body.mobile.landscape & {
@@ -612,12 +615,6 @@ $header-height: $header-button-height + $header-spacer * 2;
     .custom-scroller-line {
         top: $header-height;
         bottom: calc(64px + env(safe-area-inset-bottom));
-    }
-
-    .page-exit & {
-        transition: opacity 200ms linear;
-        will-change: opacity;
-        opacity: 0;
     }
 }
 

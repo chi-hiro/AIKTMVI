@@ -8,6 +8,14 @@ $card-spacer: math.div($card-height - $icon-size, 2);
     display: grid;
     gap: 2px;
     padding: 10px;
+
+    transition: opacity 200ms $easing;
+    opacity: 0;
+
+    .page-enter &,
+    .page-enter-done & {
+        opacity: 1;
+    }
 }
 
 .card {

@@ -97,8 +97,6 @@ export default function App({ Component, pageProps }: AppProps) {
                     </Sidebar>
                 </>
             )}
-
-            <div id="toast"></div>
         </Provider>
     )
 }
