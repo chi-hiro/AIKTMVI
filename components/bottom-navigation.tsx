@@ -24,17 +24,13 @@ const Button = memo((props: { icon: string, text: string}) => {
 })
 
 const BottomNavigation = (props: Props) => {
-    // Router
     const router = useRouter()
-
-    // Store
     const dispatch = useDispatch()
     const route = useSelector((state: { route: RouteTypes}) => state.route)
     const db = useSelector((state: { database: DatabaseTypes }) => state.database)
     const videolist = useSelector((state: { videolist: ListTypes }) => state.videolist.data)
     const playlist = useSelector((state: { playlist: ListTypes }) => state.playlist.data)
 
-    // State
     const [showNotif, setShowNotif] = useState<boolean>(false)
 
     // Methods

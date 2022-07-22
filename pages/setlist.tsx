@@ -10,19 +10,15 @@ import { Modal, ModalRefTypes } from 'components/modal'
 import { Help, HelpRefTypes } from 'components/help'
 
 export default function Setlist() {
-    // Store
     const dispatch = useDispatch()
     const route = useSelector((state: { route: RouteTypes}) => state.route)
     const player = useSelector((state: { player: PlayerTypes }) => state.player)
     const playlist = useSelector((state: { playlist: ListTypes }) => state.playlist.data)
 
-    // Ref
     const scrollerRef = useRef<ScrollerRefTypes>()
     const clearModalRef = useRef<ModalRefTypes>()
     const helpRef = useRef<HelpRefTypes>()
     const child = useRef<RefObject<CardRefTypes>[]>([])
-
-    // State
     const [clone, setClone] = useState<ItemInterface[]>([])
     const [isEdit, setEdit] = useState<boolean>(false)
 

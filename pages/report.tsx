@@ -7,13 +7,9 @@ import Icon from 'components/icon'
 import Expansion from 'components/expansion'
 
 export default function Report() {
-    // Router
     const router = useRouter()
-
-    // Store
     const dispatch = useDispatch()
 
-    // Ref
     const scrollerRef = useRef<ScrollerRefTypes>()
 
     // Methods

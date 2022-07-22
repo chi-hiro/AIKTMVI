@@ -9,13 +9,9 @@ import SettingItem from 'components/option-item'
 import { Modal, ModalRefTypes } from 'components/modal'
 
 export default function Option() {
-    // Router
     const router = useRouter()
-
-    // Store
     const dispatch = useDispatch()
 
-    // Ref
     const scrollerRef = useRef<ScrollerRefTypes>()
     const clearModalRef = useRef<ModalRefTypes>()
     const resetModalRef = useRef<ModalRefTypes>()

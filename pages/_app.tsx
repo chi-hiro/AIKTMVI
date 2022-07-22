@@ -19,10 +19,7 @@ import { PresetModal, PresetModalRefTypes } from 'components/modal-preset'
 let isResize: number = 0
 
 export default function App({ Component, pageProps }: AppProps) {
-    // Ref
     const presetModalRef = useRef<PresetModalRefTypes>()
-
-    // State
     const [viewport, setViewport] = useState<string>('user-scalable=no, width=390, viewport-fit=cover')
     const [isLoad, setLoad] = useState<boolean>(false)
 

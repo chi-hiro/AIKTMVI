@@ -36,7 +36,9 @@ export default function Menu() {
     const updateDate = (value: string) => {
         const d = new Date(value)
         const day = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('.')
-        const time = [d.getHours() > 9 ? d.getHours() : '0' + d.getHours(), d.getMinutes() > 9 ? d.getMinutes() : '0' + d.getMinutes()].join(':')
+        const h = d.getHours()
+        const m = d.getMinutes()
+        const time = [h > 9 ? h : '0' + h, m > 9 ? m : '0' + m].join(':')
         return `${day} ${time}`
     }
 

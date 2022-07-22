@@ -10,7 +10,6 @@ import { NaviModal, NaviModalRefTypes } from 'components/modal-aiktnavi'
 import { Help, HelpRefTypes } from 'components/help'
 
 export default function Home() {
-    // Store
     const dispatch = useDispatch()
     const route = useSelector((state: { route: RouteTypes}) => state.route)
     const db = useSelector((state: { database: DatabaseTypes }) => state.database)
@@ -18,14 +17,11 @@ export default function Home() {
     const filter = useSelector((state: { filter: FilterTypes }) => state.filter)
     const setting = useSelector((state: { setting: SettingTypes }) => state.setting)
 
-    // Ref
     const scrollerRef = useRef<ScrollerRefTypes>()
     const filteringModalRef = useRef<FilteringModalRefTypes>()
     const naviModalRef = useRef<NaviModalRefTypes>()
     const helpRef = useRef<HelpRefTypes>()
     const child = useRef<RefObject<CardRefTypes>[]>([])
-
-    // State
     const [layout, setLayout] = useState<string>('list')
 
     // Methods

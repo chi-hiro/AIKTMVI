@@ -9,16 +9,10 @@ import { Scroller, ScrollerRefTypes } from 'components/scroller'
 import Icon from 'components/icon'
 
 export default function ReleaseNote() {
-    // Router
     const router = useRouter()
-
-    // Store
     const dispatch = useDispatch()
 
-    // Ref
     const scrollerRef = useRef<ScrollerRefTypes>()
-
-    // State
     const [src, setSrc] = useState<Array<{ [key: string]: any }>>([])
 
     // Methods
